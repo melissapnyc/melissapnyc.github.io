@@ -1,0 +1,135 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <!--<link rel="stylesheet" href="css/styles.css?v=1.0">-->
+  <style>
+      table, th, td {
+          border-radius: 0.5em;
+          border: 1px solid black;
+          padding: 4px;
+          text-align: center;
+      }
+      h2 {
+          color: red;
+      }
+      th {
+          background-color: #B4B4B4;
+      }
+      .month {
+          text-align: right;
+          background-color: #EEEEEE;
+      }
+  </style>
+
+</head>
+<body>
+  <!--<script src="js/scripts.js"></script>-->
+    <script>
+        function updateInfo() {
+            document.getElementById("name").innerHTML = document.getElementById("fname").value + "'s Life!";
+            var thisYear = new Date().getFullYear();
+            var birthYear = parseInt(document.getElementById("formyear").value);
+            var headerRow = document.getElementById("row0");
+            var row1 = document.getElementById("row1");
+            var row2 = document.getElementById("row2");
+            var row3 = document.getElementById("row3");
+            var row4 = document.getElementById("row4");
+            var row5 = document.getElementById("row5");
+            var row6 = document.getElementById("row6");
+            var row7 = document.getElementById("row7");
+            var row8 = document.getElementById("row8");
+            var row9 = document.getElementById("row9");
+            var row10 = document.getElementById("row10");
+            var row11 = document.getElementById("row11");
+            var row12 = document.getElementById("row12");
+            var ageRow = document.getElementById("age");
+            var x = birthYear;
+            var y = 0;
+            while (x <= thisYear) {
+                headerRow.innerHTML += "<th>" + x + "</th>";
+                row1.innerHTML += "<td></td>";
+                row2.innerHTML += "<td></td>";
+                row3.innerHTML += "<td></td>";
+                row4.innerHTML += "<td></td>";
+                row5.innerHTML += "<td></td>";
+                row6.innerHTML += "<td></td>";
+                row7.innerHTML += "<td></td>";
+                row8.innerHTML += "<td></td>";
+                row9.innerHTML += "<td></td>";
+                row10.innerHTML += "<td></td>";
+                row11.innerHTML += "<td></td>";
+                row12.innerHTML += "<td></td>";
+                ageRow.innerHTML += "<td>" + y + "</td>";
+                x += 1;
+                y +=1;
+            }
+        }
+    </script>
+    <h1>Life Tracker v1.0</h1>
+    <h3>Instructions</h2>
+    <ol>
+        <li>Enter your name and birth year and click "Go!".</li>
+        <li>Add all of the events (school, travel, weddings, etc.) in your life.</li>
+        <li>Look back here anytime you forget something!</li>
+    </ol>
+    <form action="/action_page.php">
+        <label for="fname">Your Name: </label><input type="text" id="fname" name="fname">
+        <label for="year">Birth Year: </label><input type="text" id="formyear" name="year"><br><br>
+        <input type="button" onclick="updateInfo()" value="Go!">
+    </form>
+    <h2 id="name">Your Life!</h2>
+    <table>
+        <tr id="row0">
+            <th>Year</th>
+        </tr>
+        <tr id="row1">
+            <td class="month"><b>January</b></td>
+        </tr>
+        <tr id="row2">
+            <td class="month"><b>February</b></td>
+        </tr>
+        <tr id="row3">
+            <td class="month"><b>March</b></td>
+        </tr>
+        <tr id="row4">
+            <td class="month"><b>April</b></td>
+        </tr>
+        <tr id="row5">
+            <td class="month"><b>May</b></td>
+        </tr>
+        <tr id="row6">
+            <td class="month"><b>June</b></td>
+        </tr>
+        <tr id="row7">
+            <td class="month"><b>July</b></td>
+        </tr>
+        <tr id="row8">
+            <td class="month"><b>August</b></td>
+        </tr>
+        <tr id="row9">
+            <td class="month"><b>September</b></td>
+        </tr>
+        <tr id="row10">
+            <td class="month"><b>October</b></td>
+        </tr>
+        <tr id="row11">
+            <td class="month"><b>November</b></td>
+        </tr>
+        <tr id="row12">
+            <td class="month"><b>December</b></td>
+        </tr>
+        <tr id="age">
+            <td>Your Age</td>
+        </tr>
+    </table>
+                
+    <br><br><a href="http://www.melissapallay.com">Portfolio</a>
+</body>
+</html>
