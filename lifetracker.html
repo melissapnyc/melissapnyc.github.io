@@ -42,105 +42,7 @@
     <!--<script src="js/scripts.js"></script>
     <script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-        function updateInfo() {
-            document.getElementById("name").innerHTML = document.getElementById("fname").value + "'s Life!";
-            var thisYear = new Date().getFullYear();
-            var birthYear = parseInt(document.getElementById("formyear").value);
-            var headerRow = document.getElementById("row0");
-            var row1 = document.getElementById("row1");
-            var row2 = document.getElementById("row2");
-            var row3 = document.getElementById("row3");
-            var row4 = document.getElementById("row4");
-            var row5 = document.getElementById("row5");
-            var row6 = document.getElementById("row6");
-            var row7 = document.getElementById("row7");
-            var row8 = document.getElementById("row8");
-            var row9 = document.getElementById("row9");
-            var row10 = document.getElementById("row10");
-            var row11 = document.getElementById("row11");
-            var row12 = document.getElementById("row12");
-            var ageRow = document.getElementById("age");
-            var x = birthYear;
-            var y = 0;
-            while (x <= thisYear) {
-                headerRow.innerHTML += "<th>" + x + "</th>";
-                row1.innerHTML += "<td><div class='cells' id='Jan" + x + "'>o</div></td>";
-                row2.innerHTML += "<td></td>";
-                row3.innerHTML += "<td></td>";
-                row4.innerHTML += "<td></td>";
-                row5.innerHTML += "<td></td>";
-                row6.innerHTML += "<td></td>";
-                row7.innerHTML += "<td></td>";
-                row8.innerHTML += "<td></td>";
-                row9.innerHTML += "<td></td>";
-                row10.innerHTML += "<td></td>";
-                row11.innerHTML += "<td></td>";
-                row12.innerHTML += "<td></td>";
-                ageRow.innerHTML += "<td>" + y + "</td>";
-                x += 1;
-                y +=1;
-            }
-            document.getElementById("form").style.display="none";
-        }
-
-        /*2nd attempt at edit function below
-        var defaultText = 'Click to edit';
-
-        function endEdit(e) {
-            var input = $(e.target),
-                label = input && input.prev();
-
-            label.text(input.val() === '' ? defaultText : input.val());
-            input.hide();
-            label.show();
-        }
-
-        $('.clickedit').hide()
-        .focusout(endEdit)
-        .keyup(function (e) {
-            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-                endEdit(e);
-                return false;
-            } else {
-                return true;
-            }
-        })
-        .prev().click(function () {
-            $(this).hide();
-            $(this).next().show().focus();
-        }); */
-        
-/*1st attempt at edit function below
-$('#Jan1989').click(function() {
-  var name = $(this).text();
-  $(this).html('');
-  $('<input></input>')
-    .attr({
-      'type': 'text',
-      'name': 'fname',
-      'id': 'txt_fullname',
-      'size': '30',
-      'value': name
-    })
-    .appendTo('#Jan1989');
-  $('#txt_fullname').focus();
-});
-
-$(document).on('blur', '#txt_fullname', function() {
-  var name = $(this).val();
-  $.ajax({
-    type: 'post',
-    url: 'change-name.xhr?name=' + name,
-    success: function() {
-      $('#Jan1989').text(name);
-    }
-  });
-});  */
-
-    </script>
-
-    <h1>Life Tracker v1.1</h1>
+    <h1>Life Tracker v1.2</h1>
     <h3>Instructions</h3>
     <ol>
         <li>Enter your name and birth year and click "Go!".</li>
@@ -156,11 +58,12 @@ $(document).on('blur', '#txt_fullname', function() {
     <label class="pull-left">Some other thing</label>
     <input class="clickedit" type="text" />
     <div class="clearfix"></div>-->
-    
+
+<!-- -->   
     <form id="form" action="/action_page.php">
-        <label for="fname">Your Name: </label><input type="text" id="fname" name="fname">
-        <label for="year">Birth Year: </label><input type="text" id="formyear" name="year"><br><br>
-        <input type="button" onclick="updateInfo()" value="Go!">
+        <label for="fname">Your Name: </label><input type="text" id="fname" name="fname" placeholder="Mel">
+        <label for="year">Birth Year: </label><input type="text" id="formyear" name="year" placeholder="1990"><br><br>
+        <input type="button" onclick="updateInfo(document.getElementById('fname').value,document.getElementById('formyear').value)" value="Go!">
     </form>
     <h2 id="name">Your Life!</h2>
     <table>
@@ -206,6 +109,68 @@ $(document).on('blur', '#txt_fullname', function() {
         <tr id="age">
             <td>Your Age</td>
         </tr>
-    </table>                
+        <tr id="homes">
+            <td>Homes</td>
+        </tr>
+    </table><br>
+    <button onclick="localStorage.clear()">Restart (then refresh page)</button>
+    <script>
+        //const name = localStorage.getItem('name');
+        //const birthYear = localStorage.getItem('birthYear');
+        //console.log(name,birthYear);
+        if (localStorage.getItem('name') && localStorage.getItem('birthYear')) {
+                console.log(localStorage.getItem('name'),localStorage.getItem('birthYear'))
+                //document.getElementById("name").innerHTML = localStorage.getItem('name') + "'s Life!";
+                var fname = localStorage.getItem('name');
+                var year = localStorage.getItem('birthYear');
+                updateInfo(fname,year);
+            };
+        
+        function updateInfo(fname,year) {
+            document.getElementById("name").innerHTML = fname + "'s Life!";
+            var thisYear = new Date().getFullYear();
+            var birthYear = parseInt(year);
+            var headerRow = document.getElementById("row0");
+            var row1 = document.getElementById("row1");
+            var row2 = document.getElementById("row2");
+            var row3 = document.getElementById("row3");
+            var row4 = document.getElementById("row4");
+            var row5 = document.getElementById("row5");
+            var row6 = document.getElementById("row6");
+            var row7 = document.getElementById("row7");
+            var row8 = document.getElementById("row8");
+            var row9 = document.getElementById("row9");
+            var row10 = document.getElementById("row10");
+            var row11 = document.getElementById("row11");
+            var row12 = document.getElementById("row12");
+            var ageRow = document.getElementById("age");
+            var homesRow = document.getElementById("homes");
+            var x = 0;
+            while (birthYear <= thisYear) {
+                headerRow.innerHTML += "<th>" + birthYear + "</th>";
+                row1.innerHTML += "<td><div class='cells' id='Jan" + birthYear + "'>o</div></td>";
+                row2.innerHTML += "<td></td>";
+                row3.innerHTML += "<td></td>";
+                row4.innerHTML += "<td></td>";
+                row5.innerHTML += "<td></td>";
+                row6.innerHTML += "<td></td>";
+                row7.innerHTML += "<td></td>";
+                row8.innerHTML += "<td></td>";
+                row9.innerHTML += "<td></td>";
+                row10.innerHTML += "<td></td>";
+                row11.innerHTML += "<td></td>";
+                row12.innerHTML += "<td></td>";
+                ageRow.innerHTML += "<td>" + x + "</td>";
+                homesRow.innerHTML += "<td>NYC</td>";
+                birthYear += 1;
+                x +=1;
+            }
+            localStorage.setItem('name',fname);
+            localStorage.setItem('birthYear',year);
+            document.getElementById("form").style.display="none";
+        }
+    
+    </script>
+
 </body>
 </html>
