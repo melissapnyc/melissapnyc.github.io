@@ -3,24 +3,19 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-
   <title>Life Tracker App</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
-
   <!--<link rel="stylesheet" href="css/styles.css?v=1.0">-->
   <style>
       table, th, td {
           border-radius: 0.5em;
           border: 1px solid black;
-          padding: 4px;
+          padding: 8px;
           text-align: center;
       }
-      h2 {
-          color: red;
-      }
       th {
-          background-color: #B4B4B4;
+          background-color: #a9b7ad;
       }
       .month {
           text-align: right;
@@ -35,6 +30,31 @@
           background: #f2f5ff;
           border-radius:5px;
       }
+      #homeHeader {
+          background-color: #f8d3c5;
+          width: 175px;
+      }
+      #careerHeader {
+          background-color: #f4e2cc;
+          width: 175px;
+      }
+      #travelHeader {
+          background-color: #deccca;
+          width: 175px;
+      }
+      #eventsHeader {
+          background-color: #debbb0;
+          width: 175px;
+      }
+      .details {
+          text-align: left;
+      }
+      form {
+          margin: 15px 2px;   
+      }
+      label {
+          margin-left: 15px;
+      }
   </style>
 </head>
 
@@ -42,135 +62,87 @@
     <!--<script src="js/scripts.js"></script>
     <script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <h1>Life Tracker v1.2</h1>
+    <h1>Life Journal v2.0</h1>
     <h3>Instructions</h3>
     <ol>
-        <li>Enter your name and birth year and click "Go!".</li>
-        <li>Add all of the events (school, travel, weddings, etc.) in your life.</li>
+        <li>Enter your name and birth year and click "Go!"</li>
+        <li>Then select the year and type of life event and click "Add Event!"</li>
         <li>Look back here anytime you forget something!</li>
     </ol>
-
-    <!--editable fields
-    <h4>Editable labels (below)</h4>
-    <label class="pull-left">Click me and enter some text</label>
-    <input class="clickedit" type="text" />
-    <div class="clearfix"></div>
-    <label class="pull-left">Some other thing</label>
-    <input class="clickedit" type="text" />
-    <div class="clearfix"></div>-->
-
-<!-- -->   
+   
     <form id="form" action="/action_page.php">
         <label for="fname">Your Name: </label><input type="text" id="fname" name="fname" placeholder="Mel">
-        <label for="year">Birth Year: </label><input type="text" id="formyear" name="year" placeholder="1990"><br><br>
+        <label for="year">Birth Year: </label><input type="text" id="formyear" name="year" placeholder="1990">
         <input type="button" onclick="updateInfo(document.getElementById('fname').value,document.getElementById('formyear').value)" value="Go!">
     </form>
+    <form id="cellform" action="/action_page.php">
+        <label for="cellYear">Year: </label>
+        <select id="cellYear">
+        </select>
+        <label for="type">Event Type: </label>
+        <select id="eventType">
+            <option value="h">Home</option>
+            <option value="c">Career</option>
+            <option value="v">Vacation</option>
+            <option value="e">Event</option>
+        </select>
+        <label for="celldetails">Event: </label><input type="text" id="eventDetails" name="eventDetails" placeholder="Enter your event here!">
+        <input type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventDetails').value)" value="Add Event!">
+    </form>
+    
     <h2 id="name">Your Life!</h2>
     <table>
         <tr id="row0">
             <th>Year</th>
-        </tr>
-        <tr id="row1">
-            <td class="month"><b>January</b></td>
-        </tr>
-        <tr id="row2">
-            <td class="month"><b>February</b></td>
-        </tr>
-        <tr id="row3">
-            <td class="month"><b>March</b></td>
-        </tr>
-        <tr id="row4">
-            <td class="month"><b>April</b></td>
-        </tr>
-        <tr id="row5">
-            <td class="month"><b>May</b></td>
-        </tr>
-        <tr id="row6">
-            <td class="month"><b>June</b></td>
-        </tr>
-        <tr id="row7">
-            <td class="month"><b>July</b></td>
-        </tr>
-        <tr id="row8">
-            <td class="month"><b>August</b></td>
-        </tr>
-        <tr id="row9">
-            <td class="month"><b>September</b></td>
-        </tr>
-        <tr id="row10">
-            <td class="month"><b>October</b></td>
-        </tr>
-        <tr id="row11">
-            <td class="month"><b>November</b></td>
-        </tr>
-        <tr id="row12">
-            <td class="month"><b>December</b></td>
-        </tr>
-        <tr id="age">
-            <td>Your Age</td>
-        </tr>
-        <tr id="homes">
-            <td>Homes</td>
+            <th>Age</th>
+            <th id="homeHeader">Home<br>(Address/Apartment)</th>
+            <th id="careerHeader">Career<br>(School/Jobs)</th>
+            <th id="travelHeader">Vacation<br>(Travel/Trips)</th>
+            <th id="eventsHeader">Events<br>(Weddings/Babies)</th>
         </tr>
     </table><br>
     <button onclick="localStorage.clear()">Restart (then refresh page)</button>
+
     <script>
-        //const name = localStorage.getItem('name');
-        //const birthYear = localStorage.getItem('birthYear');
-        //console.log(name,birthYear);
+        var thisYear = new Date().getFullYear();
+        
         if (localStorage.getItem('name') && localStorage.getItem('birthYear')) {
-                console.log(localStorage.getItem('name'),localStorage.getItem('birthYear'))
-                //document.getElementById("name").innerHTML = localStorage.getItem('name') + "'s Life!";
                 var fname = localStorage.getItem('name');
                 var year = localStorage.getItem('birthYear');
                 updateInfo(fname,year);
+                var list = ["h","c","v","e"];
+                var x;
+                var y = thisYear;
+                for (x of list) {
+                    while (y >= year) {
+                        if (localStorage.getItem(x+y) !== "null" && localStorage.getItem(x+y) !== undefined) {
+                            updateCell(x + y,localStorage.getItem(x+y));
+                        };
+                        y -=1;
+                    };
+                    y = thisYear;
+                };
             };
         
         function updateInfo(fname,year) {
             document.getElementById("name").innerHTML = fname + "'s Life!";
-            var thisYear = new Date().getFullYear();
             var birthYear = parseInt(year);
             var headerRow = document.getElementById("row0");
-            var row1 = document.getElementById("row1");
-            var row2 = document.getElementById("row2");
-            var row3 = document.getElementById("row3");
-            var row4 = document.getElementById("row4");
-            var row5 = document.getElementById("row5");
-            var row6 = document.getElementById("row6");
-            var row7 = document.getElementById("row7");
-            var row8 = document.getElementById("row8");
-            var row9 = document.getElementById("row9");
-            var row10 = document.getElementById("row10");
-            var row11 = document.getElementById("row11");
-            var row12 = document.getElementById("row12");
-            var ageRow = document.getElementById("age");
-            var homesRow = document.getElementById("homes");
-            var x = 0;
-            while (birthYear <= thisYear) {
-                headerRow.innerHTML += "<th>" + birthYear + "</th>";
-                row1.innerHTML += "<td><div class='cells' id='Jan" + birthYear + "'>o</div></td>";
-                row2.innerHTML += "<td></td>";
-                row3.innerHTML += "<td></td>";
-                row4.innerHTML += "<td></td>";
-                row5.innerHTML += "<td></td>";
-                row6.innerHTML += "<td></td>";
-                row7.innerHTML += "<td></td>";
-                row8.innerHTML += "<td></td>";
-                row9.innerHTML += "<td></td>";
-                row10.innerHTML += "<td></td>";
-                row11.innerHTML += "<td></td>";
-                row12.innerHTML += "<td></td>";
-                ageRow.innerHTML += "<td>" + x + "</td>";
-                homesRow.innerHTML += "<td>NYC</td>";
-                birthYear += 1;
-                x +=1;
+            var x = thisYear;
+            while (x >= birthYear) {
+                document.querySelector("table").innerHTML += "<tr><td>"+ x +"</td><td>" + (x-birthYear) + "</td><td class='details' id='h"+x+"'></td><td class='details' id='c"+x+"'></td><td class='details' id='v"+x+"'></td><td class='details' id='e"+x+"'></td></tr>";
+                document.getElementById("cellYear").innerHTML += "<option value='" + x + "'>" + x + "</option>";
+                x -=1;
             }
             localStorage.setItem('name',fname);
             localStorage.setItem('birthYear',year);
             document.getElementById("form").style.display="none";
         }
-    
+        
+        function updateCell(id,cellinfo) {
+            document.getElementById(id).innerHTML += cellinfo;
+            localStorage.setItem(id,cellinfo);
+        }
     </script>
-
 </body>
 </html>
