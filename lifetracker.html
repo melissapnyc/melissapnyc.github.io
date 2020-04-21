@@ -10,41 +10,33 @@
   <style>
       table, th, td {
           border-radius: 0.5em;
-          border: 1px solid black;
-          padding: 8px;
+          border: 1px solid #808080;
+          padding: 6px;
           text-align: center;
       }
       th {
           background-color: #a9b7ad;
+          min-width: 30px;
+          border: none;
       }
       .month {
           text-align: right;
           background-color: #EEEEEE;
       }
-      .cells {
-          font-size: 10px;
-          padding:2px 4px;
-          color: green;
-      }
-      .cells:hover {
-          background: #f2f5ff;
-          border-radius:5px;
+      #homeHeader, #careerHeader, #travelHeader, #eventHeader {
+          min-width: 160px;
       }
       #homeHeader {
           background-color: #f8d3c5;
-          width: 175px;
       }
       #careerHeader {
           background-color: #f4e2cc;
-          width: 175px;
       }
       #travelHeader {
           background-color: #deccca;
-          width: 175px;
       }
       #eventsHeader {
           background-color: #debbb0;
-          width: 175px;
       }
       .details {
           text-align: left;
@@ -52,8 +44,41 @@
       form {
           margin: 15px 2px;   
       }
-      label {
-          margin-left: 15px;
+      select {
+          margin-right: 10px;
+      }
+      .button, select {
+          border: none;
+          color: white;
+          padding: 5px 8px;
+          margin-left: 2px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 15px;
+      }
+      select {
+          background-color: #e3ecee;
+          color: black;
+      }
+      input {
+          border: #acacac solid 1px;
+          color: black;
+          text-align: left;
+          padding: 5px 8px;
+          margin-left: 2px;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 15px;
+          max-width: 180px;
+      }
+      .button {
+          background-color: #6e808d;
+          color: white;
+          font-weight: bold;
+      }
+      .button:hover {
+          background-color: #556875;
       }
   </style>
 </head>
@@ -62,7 +87,7 @@
     <!--<script src="js/scripts.js"></script>
     <script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <h1>Life Journal v2.0</h1>
+    <h1>Life Journal v2.1</h1>
     <h3>Instructions</h3>
     <ol>
         <li>Enter your name and birth year and click "Go!"</li>
@@ -70,24 +95,31 @@
         <li>Look back here anytime you forget something!</li>
     </ol>
    
-    <form id="form" action="/action_page.php">
+    <form id="form">
         <label for="fname">Your Name: </label><input type="text" id="fname" name="fname" placeholder="Mel">
         <label for="year">Birth Year: </label><input type="text" id="formyear" name="year" placeholder="1990">
-        <input type="button" onclick="updateInfo(document.getElementById('fname').value,document.getElementById('formyear').value)" value="Go!">
+        <input id="goBtn" class="button" type="button" onclick="updateInfo(document.getElementById('fname').value,document.getElementById('formyear').value)" value="Go!">
     </form>
-    <form id="cellform" action="/action_page.php">
+    <form id="cellform">
         <label for="cellYear">Year: </label>
         <select id="cellYear">
+            <option value="2020">2020</option>
         </select>
-        <label for="type">Event Type: </label>
-        <select id="eventType">
+        <label for="eventType">Event Type: </label>
+        <select id="eventType" onchange="ChangeSubList()">
             <option value="h">Home</option>
             <option value="c">Career</option>
-            <option value="v">Vacation</option>
+            <option value="t">Travel</option>
             <option value="e">Event</option>
         </select>
+        <label for="eventSubtype">Event Subtype: </label>
+        <select id="eventSubtype">
+            <option value="&amp;#127969 ">House</option>
+            <option value="&amp;#127970 ">Apartment</option>
+            <option value="&amp;#127979 ">Dorm</option>
+        </select>
         <label for="celldetails">Event: </label><input type="text" id="eventDetails" name="eventDetails" placeholder="Enter your event here!">
-        <input type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventDetails').value)" value="Add Event!">
+        <input id="addEventBtn" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value="+">
     </form>
     
     <h2 id="name">Your Life!</h2>
@@ -95,27 +127,46 @@
         <tr id="row0">
             <th>Year</th>
             <th>Age</th>
-            <th id="homeHeader">Home<br>(Address/Apartment)</th>
-            <th id="careerHeader">Career<br>(School/Jobs)</th>
-            <th id="travelHeader">Vacation<br>(Travel/Trips)</th>
-            <th id="eventsHeader">Events<br>(Weddings/Babies)</th>
+            <th id="homeHeader">&#127969 Home<br>(Address/Apartment)</th>
+            <th id="careerHeader">&#128188 Career<br>(School/Jobs)</th>
+            <th id="travelHeader">&#127758 Travel<br>(Vacation/Work Trips)</th>
+            <th id="eventsHeader">&#127881 Events<br>(Weddings/Babies)</th>
         </tr>
     </table><br>
-    <button onclick="localStorage.clear()">Restart (then refresh page)</button>
+    <button class="button" onclick="clearTable()">CLEAR JOURNAL</button>
 
-    <script>
-        var thisYear = new Date().getFullYear();
+    <script> //SCRIPT STARTS HERE//
+        var inputA = document.getElementById("formyear");
+        inputA.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                console.log("start");
+                document.getElementById("goBtn").click();
+                console.log("finish");
+            }
+        });
         
+        /*var inputB = document.getElementById("eventDetails");
+        inputB.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                console.log("start");
+                document.getElementById("addEventBtn").click();
+                console.log("finish");
+            }
+        });   */
+
+        var thisYear = new Date().getFullYear();        
         if (localStorage.getItem('name') && localStorage.getItem('birthYear')) {
                 var fname = localStorage.getItem('name');
                 var year = localStorage.getItem('birthYear');
                 updateInfo(fname,year);
-                var list = ["h","c","v","e"];
+                var list = ["h","c","t","e"];
                 var x;
                 var y = thisYear;
                 for (x of list) {
                     while (y >= year) {
-                        if (localStorage.getItem(x+y) !== "null" && localStorage.getItem(x+y) !== undefined) {
+                        if (localStorage.getItem(x+y) !== null && localStorage.getItem(x+y) !== undefined && localStorage.getItem(x+y) !== "" && localStorage.getItem(x+y) !== "null") {
                             updateCell(x + y,localStorage.getItem(x+y));
                         };
                         y -=1;
@@ -129,8 +180,9 @@
             var birthYear = parseInt(year);
             var headerRow = document.getElementById("row0");
             var x = thisYear;
+            document.getElementById("cellYear").innerHTML = "";
             while (x >= birthYear) {
-                document.querySelector("table").innerHTML += "<tr><td>"+ x +"</td><td>" + (x-birthYear) + "</td><td class='details' id='h"+x+"'></td><td class='details' id='c"+x+"'></td><td class='details' id='v"+x+"'></td><td class='details' id='e"+x+"'></td></tr>";
+                document.querySelector("table").innerHTML += "<tr><td>"+ x +"</td><td>" + (x-birthYear) + "</td><td class='details' id='h"+x+"'></td><td class='details' id='c"+x+"'></td><td class='details' id='t"+x+"'></td><td class='details' id='e"+x+"'></td></tr>";
                 document.getElementById("cellYear").innerHTML += "<option value='" + x + "'>" + x + "</option>";
                 x -=1;
             }
@@ -140,8 +192,54 @@
         }
         
         function updateCell(id,cellinfo) {
-            document.getElementById(id).innerHTML += cellinfo;
-            localStorage.setItem(id,cellinfo);
+            var cell = document.getElementById(id) 
+            console.log(cellinfo);
+            console.log(localStorage.getItem(id));
+            console.log(localStorage.getItem(id) == cellinfo);
+            if (localStorage.getItem(id) == cellinfo) {
+                cell.innerHTML = cellinfo;
+            } else if (localStorage.getItem(id) == null) {
+                cell.innerHTML = cellinfo;
+                localStorage.setItem(id,cell.innerHTML);
+            } else {
+                cell.innerHTML += "<br>" + cellinfo;
+                localStorage.setItem(id,cell.innerHTML);
+            }
+        }
+        
+        var typesAndSubs = {};
+        typesAndSubs['h'] = ['House', 'Apartment', 'Dorm'];
+        typesAndSubs['c'] = ['Job', 'School', 'Internship'];
+        typesAndSubs['t'] = ['Vacation', 'Cruise',  'Beach', 'Work Trip'];
+        typesAndSubs['e'] = ['Wedding', 'Baby'];
+        
+        var subValues = {};
+        subValues['h'] = ['&#127969 ', '&#127970 ', '&#127979 '];
+        subValues['c'] = ['&#128188 ', '&#9999 ', '&#128187 '];
+        subValues['t'] = ['&#128747 ', '&#128755 ', '&#127958 ', '&#128084 '];
+        subValues['e'] = ['&#128141 ', '&#128118 '];
+        
+        function ChangeSubList() {
+            var typeList = document.getElementById("eventType");
+            var subList = document.getElementById("eventSubtype");
+            var selType = typeList.options[typeList.selectedIndex].value;
+            while (subList.options.length) {
+                subList.remove(0);
+            }
+            var types = typesAndSubs[selType];
+            var values = subValues[selType];
+            if (types) {
+                var i;
+                for (i = 0; i < types.length; i++) {
+                    var type = new Option(types[i], values[i]);
+                    subList.options.add(type)
+                }
+            }
+        }
+        
+        function clearTable() {
+            localStorage.clear();
+            location.reload();
         }
     </script>
 </body>
