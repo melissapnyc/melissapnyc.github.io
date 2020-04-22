@@ -8,6 +8,9 @@
   <meta name="author" content="SitePoint">
   <!--<link rel="stylesheet" href="css/styles.css?v=1.0">-->
   <style>
+      body {
+          font-family: Arial;
+      }
       table, th, td {
           border-radius: 0.5em;
           border: 1px solid #808080;
@@ -41,16 +44,19 @@
       .details {
           text-align: left;
       }
+      .details:hover > .reset, .reset:hover {
+          display: inline-block;
+      }
       form {
           margin: 15px 2px;   
       }
       select {
-          margin-right: 10px;
+          margin-right: 5px;
       }
       .button, select {
           border: none;
           color: white;
-          padding: 5px 8px;
+          padding: 5px 5px;
           margin-left: 2px;
           text-align: center;
           text-decoration: none;
@@ -70,15 +76,26 @@
           text-decoration: none;
           display: inline-block;
           font-size: 15px;
-          max-width: 180px;
+          max-width: 160px;
       }
       .button {
           background-color: #6e808d;
           color: white;
           font-weight: bold;
+          padding: 5px 10px;
       }
       .button:hover {
           background-color: #556875;
+      }
+      .reset {
+          display: none;
+          text-align: right;
+          border: none;
+          border-radius: .5em;
+          color: red;
+          background-color: rgba(255,186,186,0.5);
+          font-weight: bold;
+          margin-right: 4px;
       }
   </style>
 </head>
@@ -87,14 +104,14 @@
     <!--<script src="js/scripts.js"></script>
     <script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <h1>Life Journal v2.1</h1>
+    <h1>Life Journal v2.2</h1>
     <h3>Instructions</h3>
     <ol>
         <li>Enter your name and birth year and click "Go!"</li>
         <li>Then select the year and type of life event and click "Add Event!"</li>
         <li>Look back here anytime you forget something!</li>
     </ol>
-   
+    
     <form id="form">
         <label for="fname">Your Name: </label><input type="text" id="fname" name="fname" placeholder="Mel">
         <label for="year">Birth Year: </label><input type="text" id="formyear" name="year" placeholder="1990">
@@ -140,9 +157,7 @@
         inputA.addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
                 event.preventDefault();
-                console.log("start");
                 document.getElementById("goBtn").click();
-                console.log("finish");
             }
         });
         
@@ -156,7 +171,8 @@
             }
         });   */
 
-        var thisYear = new Date().getFullYear();        
+        var thisYear = new Date().getFullYear();     
+        
         if (localStorage.getItem('name') && localStorage.getItem('birthYear')) {
                 var fname = localStorage.getItem('name');
                 var year = localStorage.getItem('birthYear');
@@ -166,7 +182,7 @@
                 var y = thisYear;
                 for (x of list) {
                     while (y >= year) {
-                        if (localStorage.getItem(x+y) !== null && localStorage.getItem(x+y) !== undefined && localStorage.getItem(x+y) !== "" && localStorage.getItem(x+y) !== "null") {
+                        if (localStorage.getItem(x+y) !== null && localStorage.getItem(x+y) !== undefined && localStorage.getItem(x+y) !== "" && localStorage.getItem(x+y) !== "null" && localStorage.getItem(x+y) !== "empty") {
                             updateCell(x + y,localStorage.getItem(x+y));
                         };
                         y -=1;
@@ -193,15 +209,17 @@
         
         function updateCell(id,cellinfo) {
             var cell = document.getElementById(id) 
-            console.log(cellinfo);
-            console.log(localStorage.getItem(id));
-            console.log(localStorage.getItem(id) == cellinfo);
+            //console.log(cellinfo,localStorage.getItem(id));
             if (localStorage.getItem(id) == cellinfo) {
+                //console.log("EQUAL");
                 cell.innerHTML = cellinfo;
-            } else if (localStorage.getItem(id) == null) {
-                cell.innerHTML = cellinfo;
+            } else if (localStorage.getItem(id) == null || localStorage.getItem(id) == "empty") {
+                //console.log("NULL",id);
+                var click = "onclick='clearCell("+JSON.stringify(id)+")'";
+                cell.innerHTML = "<button class='reset' "+click+">x</button>" + cellinfo;
                 localStorage.setItem(id,cell.innerHTML);
             } else {
+                //console.log("UNEQUAL");
                 cell.innerHTML += "<br>" + cellinfo;
                 localStorage.setItem(id,cell.innerHTML);
             }
@@ -237,10 +255,15 @@
             }
         }
         
+        function clearCell(id) {
+            document.getElementById(id).innerHTML="";
+            localStorage.setItem(id,"empty");
+        }
+        
         function clearTable() {
             localStorage.clear();
             location.reload();
-        }
+        } 
     </script>
 </body>
 </html>
