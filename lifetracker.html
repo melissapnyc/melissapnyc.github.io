@@ -13,14 +13,17 @@
       }
       table, th, td {
           border-radius: 0.5em;
-          border: 1px solid #808080;
+          border: 3px solid #E7E7E7; /*TABLE BACKGROUND + BORDERS*/
           padding: 6px;
           text-align: center;
       }
+      table {
+          background-color: #E7E7E7; /*TABLE BACKGROUND + BORDERS*/
+      }
       th {
           background-color: #a9b7ad;
-          min-width: 30px;
-          border: none;
+          min-width: 40px;
+          /*border: none;*/
       }
       .month {
           text-align: right;
@@ -43,9 +46,13 @@
       }
       .details {
           text-align: left;
+          background-color: #FFFFFF;
       }
       .details:hover > .reset, .reset:hover {
           display: inline-block;
+      }
+      .yearCell, .ageCell {
+          background-color: #A9CCE3;
       }
       form {
           margin: 15px 2px;   
@@ -97,6 +104,21 @@
           font-weight: bold;
           margin-right: 4px;
       }
+      @media print{
+          .button, h3, ol, form {
+              display:none;
+          }
+          @page {
+              size: A4;
+          }
+          html, body {
+            width: 210mm;
+            height: 282mm;
+            font-size: 20px;
+            background: #FFF;
+            overflow:visible;
+          }
+       }
   </style>
 </head>
 
@@ -144,14 +166,23 @@
         <tr id="row0">
             <th>Year</th>
             <th>Age</th>
-            <th id="homeHeader">&#127969 Home<br>(Address/Apartment)</th>
-            <th id="careerHeader">&#128188 Career<br>(School/Jobs)</th>
-            <th id="travelHeader">&#127758 Travel<br>(Vacation/Work Trips)</th>
-            <th id="eventsHeader">&#127881 Events<br>(Weddings/Babies)</th>
+            <th id="homeHeader">HOME<br>(House/Apartment)</th>
+            <th id="careerHeader">CAREER<br>(School/Jobs)</th>
+            <th id="travelHeader">TRAVEL<br>(Vacation/Work Trips)</th>
+            <th id="eventsHeader">EVENTS<br>(Weddings/Babies)</th>
         </tr>
     </table><br>
+    <button class="button" onclick="window.print()">PRINT</button>
     <button class="button" onclick="clearTable()">CLEAR JOURNAL</button>
 
+    <!--<br><br>
+    <table>
+        <tr><td>&# 127969 HOME</td><td>&#127969 House &#127970 Apartment &#127979 Dorm</td></tr>
+        <tr><td>&# 128188 CAREER &# 128084 ?</td><td>&#128188 Job &#127891 School &#128187 Internship</td></tr>
+        <tr><td>&# 127758 TRAVEL</td><td>&#127758 International &#128739 Domestic &#128755 Cruise &#127958 Beach &#128084 Worktrip</td></tr>
+        <tr><td>&# 127881 EVENTS</td><td>&#128141 Wedding &#128118 Baby</td></tr>
+    </table>-->
+    
     <script> //SCRIPT STARTS HERE//
         var inputA = document.getElementById("formyear");
         inputA.addEventListener("keyup", function(event) {
@@ -198,7 +229,7 @@
             var x = thisYear;
             document.getElementById("cellYear").innerHTML = "";
             while (x >= birthYear) {
-                document.querySelector("table").innerHTML += "<tr><td>"+ x +"</td><td>" + (x-birthYear) + "</td><td class='details' id='h"+x+"'></td><td class='details' id='c"+x+"'></td><td class='details' id='t"+x+"'></td><td class='details' id='e"+x+"'></td></tr>";
+                document.querySelector("table").innerHTML += "<tr><td class='yearCell'>"+ x +"</td><td class='ageCell'>" + (x-birthYear) + "</td><td class='details' id='h"+x+"'></td><td class='details' id='c"+x+"'></td><td class='details' id='t"+x+"'></td><td class='details' id='e"+x+"'></td></tr>";
                 document.getElementById("cellYear").innerHTML += "<option value='" + x + "'>" + x + "</option>";
                 x -=1;
             }
@@ -228,13 +259,13 @@
         var typesAndSubs = {};
         typesAndSubs['h'] = ['House', 'Apartment', 'Dorm'];
         typesAndSubs['c'] = ['Job', 'School', 'Internship'];
-        typesAndSubs['t'] = ['Vacation', 'Cruise',  'Beach', 'Work Trip'];
+        typesAndSubs['t'] = ['International Trip', 'Domestic Trip', 'Cruise',  'Beach', 'Work Trip'];
         typesAndSubs['e'] = ['Wedding', 'Baby'];
         
         var subValues = {};
         subValues['h'] = ['&#127969 ', '&#127970 ', '&#127979 '];
-        subValues['c'] = ['&#128188 ', '&#9999 ', '&#128187 '];
-        subValues['t'] = ['&#128747 ', '&#128755 ', '&#127958 ', '&#128084 '];
+        subValues['c'] = ['&#128188 ', '&#127891 ', '&#128187 '];
+        subValues['t'] = ['&#127758 ', '&#128739 ', '&#128755 ', '&#127958 ', '&#128084 '];
         subValues['e'] = ['&#128141 ', '&#128118 '];
         
         function ChangeSubList() {
