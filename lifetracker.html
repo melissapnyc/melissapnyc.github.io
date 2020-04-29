@@ -10,6 +10,7 @@
   <style>
       body {
           font-family: Arial;
+          margin: 10px 20px 20px 20px;
       }
       table, th, td {
           border-radius: 0.5em;
@@ -23,7 +24,9 @@
       th {
           background-color: #a9b7ad;
           min-width: 40px;
-          /*border: none;*/
+      }
+      ol {
+          margin: 0px;
       }
       .month {
           text-align: right;
@@ -49,13 +52,22 @@
           background-color: #FFFFFF;
       }
       .details:hover > .reset, .reset:hover {
-          display: inline-block;
+          display: initial;
+          position: absolute;
       }
       .yearCell, .ageCell {
           background-color: #A9CCE3;
       }
       form {
-          margin: 15px 2px;   
+          margin: 10px 2px;   
+      }
+      #stickyform {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0;
+          background-color: #FFFFFF;
+          padding: 5px;
+          border-bottom: 2px solid gray;
       }
       select {
           margin-right: 5px;
@@ -69,6 +81,9 @@
           text-decoration: none;
           display: inline-block;
           font-size: 15px;
+      }
+      label {
+          font-weight: bold;
       }
       select {
           background-color: #e3ecee;
@@ -89,23 +104,23 @@
           background-color: #6e808d;
           color: white;
           font-weight: bold;
-          padding: 5px 10px;
+          padding: 6px 10px;
       }
       .button:hover {
           background-color: #556875;
       }
       .reset {
           display: none;
-          text-align: right;
+          text-align: center;
           border: none;
-          border-radius: .5em;
-          color: red;
-          background-color: rgba(255,186,186,0.5);
+          border-radius: 0.2em;
+          color: #FFFFFF;
+          background-color: #ef4c4c;
           font-weight: bold;
-          margin-right: 4px;
+          padding: 2px 6px;
       }
       @media print{
-          .button, h3, ol, form {
+          .button, h3, ol, form, #stickyform {
               display:none;
           }
           @page {
@@ -126,19 +141,20 @@
     <!--<script src="js/scripts.js"></script>
     <script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <h1>Life Journal v2.2</h1>
+    <h1>Life Journal v2.3</h1>
     <h3>Instructions</h3>
     <ol>
         <li>Enter your name and birth year and click "Go!"</li>
         <li>Then select the year and type of life event and click "Add Event!"</li>
         <li>Look back here anytime you forget something!</li>
     </ol>
-    
+        
     <form id="form">
         <label for="fname">Your Name: </label><input type="text" id="fname" name="fname" placeholder="Mel">
         <label for="year">Birth Year: </label><input type="text" id="formyear" name="year" placeholder="1990">
         <input id="goBtn" class="button" type="button" onclick="updateInfo(document.getElementById('fname').value,document.getElementById('formyear').value)" value="Go!">
     </form>
+    <div id="stickyform">
     <form id="cellform">
         <label for="cellYear">Year: </label>
         <select id="cellYear">
@@ -158,8 +174,9 @@
             <option value="&amp;#127979 ">Dorm</option>
         </select>
         <label for="celldetails">Event: </label><input type="text" id="eventDetails" name="eventDetails" placeholder="Enter your event here!">
-        <input id="addEventBtn" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value="+">
+        <input id="addEventBtn" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value=" + ">
     </form>
+    </div>
     
     <h2 id="name">Your Life!</h2>
     <table>
@@ -260,13 +277,13 @@
         typesAndSubs['h'] = ['House', 'Apartment', 'Dorm'];
         typesAndSubs['c'] = ['Job', 'School', 'Internship'];
         typesAndSubs['t'] = ['International Trip', 'Domestic Trip', 'Cruise',  'Beach', 'Work Trip'];
-        typesAndSubs['e'] = ['Wedding', 'Baby'];
+        typesAndSubs['e'] = ['Wedding', 'Baby', 'Party'];
         
         var subValues = {};
         subValues['h'] = ['&#127969 ', '&#127970 ', '&#127979 '];
         subValues['c'] = ['&#128188 ', '&#127891 ', '&#128187 '];
         subValues['t'] = ['&#127758 ', '&#128739 ', '&#128755 ', '&#127958 ', '&#128084 '];
-        subValues['e'] = ['&#128141 ', '&#128118 '];
+        subValues['e'] = ['&#128141 ', '&#128118 ', '&#127881 '];
         
         function ChangeSubList() {
             var typeList = document.getElementById("eventType");
