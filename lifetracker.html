@@ -6,6 +6,7 @@
   <title>Life Tracker App</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--<link rel="stylesheet" href="css/styles.css?v=1.0">-->
   <style>
       body {
@@ -32,7 +33,7 @@
           text-align: right;
           background-color: #EEEEEE;
       }
-      #homeHeader, #careerHeader, #travelHeader, #eventHeader {
+      #homeHeader, #careerHeader, #travelHeader, #eventsHeader {
           min-width: 160px;
       }
       #homeHeader {
@@ -59,14 +60,13 @@
           background-color: #A9CCE3;
       }
       form {
-          margin: 10px 2px;   
+          margin: 10px 5px;   
       }
       #stickyform {
-          position: -webkit-sticky;
           position: sticky;
           top: 0;
           background-color: #FFFFFF;
-          padding: 5px;
+          padding: 2px 0px;
           border-bottom: 2px solid gray;
       }
       select {
@@ -100,8 +100,12 @@
           font-size: 15px;
           max-width: 160px;
       }
+      .mobileLabel {
+          font-size: 12px;
+      }
       .button {
           background-color: #6e808d;
+          border-radius: 0.3em;
           color: white;
           font-weight: bold;
           padding: 6px 10px;
@@ -134,6 +138,57 @@
             overflow:visible;
           }
        }
+      #addEventBtnMobile {
+          display: none;
+      }
+      @media only screen and (max-width: 600px) {
+          body {
+              font-size: 0.8em;
+          }
+          table {
+              max-width: 50%;
+          }
+          label, select, input {
+              display: inline-block;
+          }
+          label {
+              min-width: 30%;
+              text-align: right;
+          }
+          select {
+              min-width: 60%;
+          }
+          input {
+              max-width: 55%;
+              min-width: 55%;
+          }
+          ol, label, input, select, button {
+              margin: 5px 5px;
+          }
+          ol {
+              font-size: 10px;
+          }
+          #addEventBtnMobile {
+              display: inline-block;
+              width: 90%;
+              text-align: center;
+          }
+          #homeHeader, #careerHeader, #travelHeader, #eventsHeader, th, td {
+              min-width: 0px;
+              max-width: 45px;
+              font-size: 0.8em;
+          }
+          .mobileLabel, #addEventBtn {
+              display: none;
+          }
+          #goBtn, #addEventBtnMobile {
+              width: 100%;
+              max-width: 100%;
+
+          }
+          #stickyform {
+              position: initial;
+      }
   </style>
 </head>
 
@@ -141,11 +196,11 @@
     <!--<script src="js/scripts.js"></script>
     <script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <h1>Life Journal v2.3</h1>
+    <h1>Life Journal v2.4</h1>
     <h3>Instructions</h3>
     <ol>
-        <li>Enter your name and birth year and click "Go!"</li>
-        <li>Then select the year and type of life event and click "Add Event!"</li>
+        <li>Enter your name and birth year, then click "Go!"</li>
+        <li>To add details, select the year and type of life event.</li>
         <li>Look back here anytime you forget something!</li>
     </ol>
         
@@ -175,6 +230,7 @@
         </select>
         <label for="celldetails">Event: </label><input type="text" id="eventDetails" name="eventDetails" placeholder="Enter your event here!">
         <input id="addEventBtn" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value=" + ">
+        <input id="addEventBtnMobile" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value="Add Event">
     </form>
     </div>
     
@@ -183,14 +239,14 @@
         <tr id="row0">
             <th>Year</th>
             <th>Age</th>
-            <th id="homeHeader">HOME<br>(House/Apartment)</th>
-            <th id="careerHeader">CAREER<br>(School/Jobs)</th>
-            <th id="travelHeader">TRAVEL<br>(Vacation/Work Trips)</th>
-            <th id="eventsHeader">EVENTS<br>(Weddings/Babies)</th>
+            <th id="homeHeader">HOME<br><div class="mobileLabel">(House/Apartment)</div></th>
+            <th id="careerHeader">CAREER<br><div class="mobileLabel">(School/Jobs)</div></th>
+            <th id="travelHeader">TRAVEL<br><div class="mobileLabel">(Vacation/Work Trips)</div></th>
+            <th id="eventsHeader">EVENTS<br><div class="mobileLabel">(Weddings/Babies)</div></th>
         </tr>
     </table><br>
     <button class="button" onclick="window.print()">PRINT</button>
-    <button class="button" onclick="clearTable()">CLEAR JOURNAL</button>
+    <button class="button" onclick="clearTable()">CLEAR</button>
 
     <!--<br><br>
     <table>
@@ -208,16 +264,6 @@
                 document.getElementById("goBtn").click();
             }
         });
-        
-        /*var inputB = document.getElementById("eventDetails");
-        inputB.addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                console.log("start");
-                document.getElementById("addEventBtn").click();
-                console.log("finish");
-            }
-        });   */
 
         var thisYear = new Date().getFullYear();     
         
@@ -236,8 +282,7 @@
                         y -=1;
                     };
                     y = thisYear;
-                };
-            };
+            };};
         
         function updateInfo(fname,year) {
             document.getElementById("name").innerHTML = fname + "'s Life!";
@@ -299,9 +344,7 @@
                 for (i = 0; i < types.length; i++) {
                     var type = new Option(types[i], values[i]);
                     subList.options.add(type)
-                }
-            }
-        }
+        }}}
         
         function clearCell(id) {
             document.getElementById(id).innerHTML="";
