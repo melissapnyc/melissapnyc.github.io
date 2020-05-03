@@ -14,13 +14,14 @@
           margin: 10px 20px 20px 20px;
       }
       table, th, td {
-          border-radius: 0.5em;
-          border: 3px solid #E7E7E7; /*TABLE BACKGROUND + BORDERS*/
+          border-radius: 0.3em;
           padding: 6px;
           text-align: center;
       }
       table {
-          background-color: #E7E7E7; /*TABLE BACKGROUND + BORDERS*/
+          background-color: #E7E7E7;
+          border-spacing: 8px;
+          border-collapse: separate;
       }
       th {
           background-color: #a9b7ad;
@@ -146,7 +147,7 @@
               font-size: 0.8em;
           }
           table {
-              max-width: 50%;
+              max-width: 85%;
           }
           label, select, input {
               display: inline-block;
@@ -156,7 +157,7 @@
               text-align: right;
           }
           select {
-              min-width: 60%;
+              min-width: 55%;
           }
           input {
               max-width: 55%;
@@ -175,7 +176,7 @@
           }
           #homeHeader, #careerHeader, #travelHeader, #eventsHeader, th, td {
               min-width: 0px;
-              max-width: 45px;
+              max-width: 60px;
               font-size: 0.8em;
           }
           .mobileLabel, #addEventBtn {
@@ -196,7 +197,7 @@
     <!--<script src="js/scripts.js"></script>
     <script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <h1>Life Journal v2.4</h1>
+    <h1>Life Journal v2.5</h1>
     <h3>Instructions</h3>
     <ol>
         <li>Enter your name and birth year, then click "Go!"</li>
@@ -228,8 +229,8 @@
             <option value="&amp;#127970 ">Apartment</option>
             <option value="&amp;#127979 ">Dorm</option>
         </select>
-        <label for="celldetails">Event: </label><input type="text" id="eventDetails" name="eventDetails" placeholder="Enter your event here!">
-        <input id="addEventBtn" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value=" + ">
+        <label for="celldetails">Event: </label><input type="text" onkeypress="return tableInputKeyPress(event)" id="eventDetails" name="eventDetails" placeholder="Enter your event here!">
+        <input id="addEventBtn" onSubmit="return false;" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value=" + ">
         <input id="addEventBtnMobile" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value="Add Event">
     </form>
     </div>
@@ -264,6 +265,15 @@
                 document.getElementById("goBtn").click();
             }
         });
+        
+        function tableInputKeyPress(e){
+            e=e||window.event;
+            var key = e.keyCode;
+            if(key==13){ //Enter
+                e.preventDefault();
+                document.getElementById("addEventBtn").click();
+                return true; 
+        }};
 
         var thisYear = new Date().getFullYear();     
         
