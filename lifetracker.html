@@ -57,6 +57,9 @@
           display: initial;
           position: absolute;
       }
+      .dupeDetail {
+          display: none;
+      }
       .yearCell, .ageCell {
           background-color: #A9CCE3;
       }
@@ -144,10 +147,12 @@
       }
       @media only screen and (max-width: 600px) {
           body {
-              font-size: 0.8em;
+              font-size: 0.7em;
+              margin: 4px;
           }
           table {
               max-width: 85%;
+              border-spacing: 2px;
           }
           label, select, input {
               display: inline-block;
@@ -237,14 +242,18 @@
     
     <h2 id="name">Your Life!</h2>
     <table>
-        <tr id="row0">
-            <th>Year</th>
-            <th>Age</th>
-            <th id="homeHeader">HOME<br><div class="mobileLabel">(House/Apartment)</div></th>
-            <th id="careerHeader">CAREER<br><div class="mobileLabel">(School/Jobs)</div></th>
-            <th id="travelHeader">TRAVEL<br><div class="mobileLabel">(Vacation/Work Trips)</div></th>
-            <th id="eventsHeader">EVENTS<br><div class="mobileLabel">(Weddings/Babies)</div></th>
-        </tr>
+        <thead>
+            <tr id="row0">
+                <th>Year</th>
+                <th>Age</th>
+                <th id="homeHeader">HOME<br><div class="mobileLabel">(House/Apartment)</div></th>
+                <th id="careerHeader">CAREER<br><div class="mobileLabel">(School/Jobs)</div></th>
+                <th id="travelHeader">TRAVEL<br><div class="mobileLabel">(Vacation/Work Trips)</div></th>
+                <th id="eventsHeader">EVENTS<br><div class="mobileLabel">(Weddings/Babies)</div></th>
+            </tr>
+        </thead>
+        <tbody id="lifeTable">
+        </tbody>
     </table><br>
     <button class="button" onclick="window.print()">PRINT</button>
     <button class="button" onclick="clearTable()">CLEAR</button>
@@ -301,7 +310,7 @@
             var x = thisYear;
             document.getElementById("cellYear").innerHTML = "";
             while (x >= birthYear) {
-                document.querySelector("table").innerHTML += "<tr><td class='yearCell'>"+ x +"</td><td class='ageCell'>" + (x-birthYear) + "</td><td class='details' id='h"+x+"'></td><td class='details' id='c"+x+"'></td><td class='details' id='t"+x+"'></td><td class='details' id='e"+x+"'></td></tr>";
+                document.getElementById("lifeTable").innerHTML += "<tr><td class='yearCell'>"+ x +"</td><td class='ageCell'>" + (x-birthYear) + "</td><td class='details' id='h"+x+"'></td><td class='details' id='c"+x+"'></td><td class='details' id='t"+x+"'></td><td class='details' id='e"+x+"'></td></tr>";
                 document.getElementById("cellYear").innerHTML += "<option value='" + x + "'>" + x + "</option>";
                 x -=1;
             }
@@ -311,7 +320,7 @@
         }
         
         function updateCell(id,cellinfo) {
-            var cell = document.getElementById(id) 
+            var cell = document.getElementById(id);
             //console.log(cellinfo,localStorage.getItem(id));
             if (localStorage.getItem(id) == cellinfo) {
                 //console.log("EQUAL");
@@ -326,8 +335,55 @@
                 cell.innerHTML += "<br>" + cellinfo;
                 localStorage.setItem(id,cell.innerHTML);
             }
+            checkDupes(id);
         }
         
+        function getCell(id,num) {
+            var cell = document.getElementById(id);
+            var cellCol = id.substring(0,1);
+            var cellRow = Number(id.substring(1,5));
+            var newCell = document.getElementById(cellCol+(cellRow+num));
+            return newCell;
+        }
+        
+        function getCellID(id,num) {
+            var cell = document.getElementById(id);
+            var cellCol = id.substring(0,1);
+            var cellRow = Number(id.substring(1,5));
+            var newID = cellCol+(cellRow+num);
+            return newID;
+        }
+        
+        function checkDupes(id) {
+            //console.log("starting:"+id);
+            var x = 0;
+            var cell = document.getElementById(id);
+            var cellUp = getCell(id,x+1);
+            var cellDown = getCell(id,x-1);
+            if (cellUp != null && cell.textContent == cellUp.textContent) {
+                while (getCell(id,x+1).className == "dupeDetail" && x<100) {
+                    x++;
+                };
+                //console.log("match above:","x is "+x);
+                getCell(id,x+1).rowSpan += 1;
+                cell.className = "dupeDetail";
+            } else if (cellDown != null && cell.textContent == cellDown.textContent) {
+                //console.log("match above");
+                if ((cellDown.rowSpan > 1 || cellDown.rowSpan != undefined) && x<100) {
+                    console.log(cellDown.rowSpan);
+                    cell.rowSpan = (cellDown.rowSpan+1);
+                    cellDown.className = "dupeDetail";
+                } else {
+                //console.log("regular");
+                cell.rowSpan += 1;
+                cellDown.className = "dupeDetail";
+                };
+            } else {
+                //console.log("not a match");
+            }
+        }
+        
+        //DROPDOWNS
         var typesAndSubs = {};
         typesAndSubs['h'] = ['House', 'Apartment', 'Dorm'];
         typesAndSubs['c'] = ['Job', 'School', 'Internship'];
@@ -356,9 +412,20 @@
                     subList.options.add(type)
         }}}
         
+        //CLEAR Functions
         function clearCell(id) {
-            document.getElementById(id).innerHTML="";
-            localStorage.setItem(id,"empty");
+            var rows = getCell(id,0).rowSpan;
+            if (rows > 1 || rows != undefined) { //BUG: 3+ rows built above eachother causes rowspan issue
+                getCell(id,0).rowSpan = 1;
+                for (i = 0; i < rows; i++) {
+                    getCell(id,(-1*i)).innerHTML = "";
+                    getCell(id,(-1*i)).className = "details";
+                    localStorage.setItem(getCellID(id,(-1*i)),"empty");
+                }
+            } else {
+                document.getElementById(id).innerHTML="";
+                localStorage.setItem(id,"empty");
+            }
         }
         
         function clearTable() {
