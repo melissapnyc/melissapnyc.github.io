@@ -202,7 +202,7 @@
     <!--<script src="js/scripts.js"></script>
     <script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <h1>Life Journal v2.5</h1>
+    <h1>Life Journal v2.6</h1>
     <h3>Instructions</h3>
     <ol>
         <li>Enter your name and birth year, then click "Go!"</li>
@@ -356,28 +356,35 @@
         
         function checkDupes(id) {
             //console.log("starting:"+id);
-            var x = 0;
+            var x = 0; 
             var cell = document.getElementById(id);
             var cellUp = getCell(id,x+1);
             var cellDown = getCell(id,x-1);
-            if (cellUp != null && cell.textContent == cellUp.textContent) {
+            if (cellUp != null && cellDown != null && cell.textContent == cellDown.textContent && cell.textContent == cellUp.textContent) {
+                //console.log("match above & below");
                 while (getCell(id,x+1).className == "dupeDetail" && x<100) {
                     x++;
                 };
-                //console.log("match above:","x is "+x);
+                if ((cellDown.rowSpan > 1 || cellDown.rowSpan != undefined) && x<100) {
+                    getCell(id,x+1).rowSpan += (cellDown.rowSpan+1);
+                    cell.className = "dupeDetail";
+                    cellDown.className = "dupeDetail";
+                } else {
+                    getCell(id,x+1).rowSpan += 2;
+                    cell.className = "dupeDetail";
+                    cellDown.className = "dupeDetail";
+                };
+            } else if (cellUp != null && cell.textContent == cellUp.textContent) {
+                while (getCell(id,x+1).className == "dupeDetail" && x<100) {
+                    x++;
+                };
+                //console.log("match above");
                 getCell(id,x+1).rowSpan += 1;
                 cell.className = "dupeDetail";
             } else if (cellDown != null && cell.textContent == cellDown.textContent) {
-                //console.log("match above");
-                if ((cellDown.rowSpan > 1 || cellDown.rowSpan != undefined) && x<100) {
-                    console.log(cellDown.rowSpan);
-                    cell.rowSpan = (cellDown.rowSpan+1);
-                    cellDown.className = "dupeDetail";
-                } else {
-                //console.log("regular");
-                cell.rowSpan += 1;
+                //console.log("match below");
+                cell.rowSpan = (cellDown.rowSpan+1);
                 cellDown.className = "dupeDetail";
-                };
             } else {
                 //console.log("not a match");
             }
