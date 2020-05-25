@@ -127,6 +127,20 @@
           font-weight: bold;
           padding: 2px 6px;
       }
+      #noteAdded, #noteRemoved {
+          display: none;
+          margin-left: 5px;
+          font-size: 12px;
+      }
+      
+      #noteAdded {
+          color: blue;
+      }
+      
+      #noteRemoved {
+          color: maroon;
+      }
+
       @media print{
           .button, h3, ol, form, #stickyform {
               display:none;
@@ -202,7 +216,7 @@
     <!--<script src="js/scripts.js"></script>
     <script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <h1>Life Journal v2.6</h1>
+    <h1>Life Journal v2.7</h1>
     <h3>Instructions</h3>
     <ol>
         <li>Enter your name and birth year, then click "Go!"</li>
@@ -237,6 +251,8 @@
         <label for="celldetails">Event: </label><input type="text" onkeypress="return tableInputKeyPress(event)" id="eventDetails" name="eventDetails" placeholder="Enter your event here!">
         <input id="addEventBtn" onSubmit="return false;" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value=" + ">
         <input id="addEventBtnMobile" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value="Add Event">
+        <div id="noteAdded" class="note">Added!</div>
+        <div id="noteRemoved" class="note">Removed!</div>
     </form>
     </div>
     
@@ -267,6 +283,12 @@
     </table>-->
     
     <script> //SCRIPT STARTS HERE//
+        function noted(id) {
+            var element = document.getElementById(id);
+            element.style.display = "inline-block";
+            setTimeout(function() {element.style.display = "none"},3000);
+        };
+        
         var inputA = document.getElementById("formyear");
         inputA.addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
@@ -303,6 +325,7 @@
                     y = thisYear;
             };};
         
+        //CELL Functions
         function updateInfo(fname,year) {
             document.getElementById("name").innerHTML = fname + "'s Life!";
             var birthYear = parseInt(year);
@@ -336,6 +359,7 @@
                 localStorage.setItem(id,cell.innerHTML);
             }
             checkDupes(id);
+            noted("noteAdded");
         }
         
         function getCell(id,num) {
@@ -390,6 +414,28 @@
             }
         }
         
+        //CLEAR Functions
+        function clearCell(id) {
+            var rows = getCell(id,0).rowSpan;
+            if (rows > 1 || rows != undefined) { //BUG: 3+ rows built above eachother causes rowspan issue
+                getCell(id,0).rowSpan = 1;
+                for (i = 0; i < rows; i++) {
+                    getCell(id,(-1*i)).innerHTML = "";
+                    getCell(id,(-1*i)).className = "details";
+                    localStorage.setItem(getCellID(id,(-1*i)),"empty");
+                }
+            } else {
+                document.getElementById(id).innerHTML="";
+                localStorage.setItem(id,"empty");
+            }
+            noted("noteRemoved");
+        }
+        
+        function clearTable() {
+            localStorage.clear();
+            location.reload();
+        } 
+        
         //DROPDOWNS
         var typesAndSubs = {};
         typesAndSubs['h'] = ['House', 'Apartment', 'Dorm'];
@@ -418,27 +464,6 @@
                     var type = new Option(types[i], values[i]);
                     subList.options.add(type)
         }}}
-        
-        //CLEAR Functions
-        function clearCell(id) {
-            var rows = getCell(id,0).rowSpan;
-            if (rows > 1 || rows != undefined) { //BUG: 3+ rows built above eachother causes rowspan issue
-                getCell(id,0).rowSpan = 1;
-                for (i = 0; i < rows; i++) {
-                    getCell(id,(-1*i)).innerHTML = "";
-                    getCell(id,(-1*i)).className = "details";
-                    localStorage.setItem(getCellID(id,(-1*i)),"empty");
-                }
-            } else {
-                document.getElementById(id).innerHTML="";
-                localStorage.setItem(id,"empty");
-            }
-        }
-        
-        function clearTable() {
-            localStorage.clear();
-            location.reload();
-        } 
     </script>
 </body>
 </html>
