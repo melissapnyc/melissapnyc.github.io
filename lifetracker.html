@@ -27,6 +27,12 @@
           background-color: #a9b7ad;
           min-width: 40px;
       }
+      h4 {
+          margin: 8px 0px;
+      }
+      h1 {
+          margin-bottom: 10px;
+      }
       ol {
           margin: 0px;
       }
@@ -64,7 +70,7 @@
           background-color: #A9CCE3;
       }
       form {
-          margin: 10px 5px;   
+          margin: 6px 0px;   
       }
       #stickyform {
           position: sticky;
@@ -104,6 +110,9 @@
           font-size: 15px;
           max-width: 160px;
       }
+      .content {
+          display: none;
+      }
       .mobileLabel {
           font-size: 12px;
       }
@@ -142,7 +151,7 @@
       }
 
       @media print{
-          .button, h3, ol, form, #stickyform {
+          .button, .collapsible, h1, h4, ol, li, form, #stickyform {
               display:none;
           }
           @page {
@@ -222,9 +231,9 @@
     <!--<script src="js/scripts.js"></script>
     <script src="jquery-3.4.1.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <h1>Life Journal v2.8</h1>
-    <h3>Instructions</h3>
-    <ol>
+    <h1>Life Journal v2.9</h1>
+    <h4 class="collapsible">Instructions &#x2207</h4>
+    <ol class="content">
         <li>Enter your name and birth year, then click "Go!"</li>
         <li>To add details, select the year and type of life event.</li>
         <li>Look back here anytime you forget something!</li>
@@ -237,10 +246,6 @@
     </form>
     <div id="stickyform">
     <form id="cellform">
-        <label for="cellYear">Year: </label>
-        <select id="cellYear">
-            <option value="2020">2020</option>
-        </select>
         <label for="eventType">Event Type: </label>
         <select id="eventType" onchange="ChangeSubList()">
             <option value="h">Home</option>
@@ -253,6 +258,10 @@
             <option value="&amp;#127969 ">House</option>
             <option value="&amp;#127970 ">Apartment</option>
             <option value="&amp;#127979 ">Dorm</option>
+        </select>
+        <label for="cellYear">Year: </label>
+        <select id="cellYear">
+            <option value="2020">2020</option>
         </select>
         <label for="celldetails">Event: </label><input type="text" onkeypress="return tableInputKeyPress(event)" id="eventDetails" name="eventDetails" placeholder="Enter your event here!">
         <input id="addEventBtn" onSubmit="return false;" class="button" type="button" onclick="updateCell(document.getElementById('eventType').value+document.getElementById('cellYear').value,document.getElementById('eventSubtype').value+document.getElementById('eventDetails').value)" value=" + ">
@@ -312,6 +321,21 @@
                 return true; 
         }};
 
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+              content.style.display = "none";
+            } else {
+              content.style.display = "block";
+            }
+          });
+        }
+        
         var thisYear = new Date().getFullYear();     
         
         if (localStorage.getItem('name') && localStorage.getItem('birthYear')) {
