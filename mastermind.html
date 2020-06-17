@@ -1,0 +1,431 @@
+<html>
+    <head>
+        <style>
+            #headermastermind {
+                height: 50px;
+                width: 310px;
+                font-family: verdana;
+                font-size: 40px;
+                padding-left: 8px;
+            }
+            #game {
+                height: 200px;
+                width: 350px;
+            }
+            #code {
+                float: left;
+                border-right: grey solid 2px;
+                padding-left: 5px;
+                padding-right: 5px;
+                padding-top: 2px;
+            }
+            #guess1 {
+                padding-left: 5px;
+            }
+            #submit {
+                background-color: orange;
+                font-family: verdana;
+                color: white;
+                border-radius: 5px;
+                float: left;
+                width: 310px;
+                height: 50px;
+                font-size: 25px;
+            }
+            #blank {
+                height: 20px;
+                width: 30px;
+            }
+
+            #right {
+                padding: 11% 14%;
+            }
+
+            .circle {
+                border: none;
+                border-radius: 100%;
+                width: 30px;
+                height: 30px;
+                background-color: lightgrey;
+            }
+            .square {
+                border: none;
+                border-radius: 0%;
+                height: 20px;
+                width: 30px;
+                background-color: none;
+                text-align: center;
+                vertical-align: top;
+            }
+            .tinycircle {
+                border: none;
+                border-radius: 100%;
+                width: 10px;
+                height: 10px;
+                background-color: #eaeab4;
+                text-align: center;
+                vertical-align: top;
+            }
+            .guess {
+                float: left;
+                padding: 2px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="headermastermind"><b>MASTERMIND</b></div><br>
+        <div id="game">        
+            <div id="code">
+                <div id="blank"></div><br>
+                <div id="codeA" class="circle"></div>
+                <div id="codeB" class="circle"></div>
+                <div id="codeC" class="circle"></div>
+                <div id="codeD" class="circle"></div>
+            </div>
+            <div id="guess1" class="guess">
+                <div id="results1" class="square">
+                    <table>
+                    <tr>
+                    <td><div id="results1A" class="tinycircle"></div></td>
+                    <td><div id="results1B" class="tinycircle"></div></td>
+                    </tr>
+                    <tr>
+                    <td><div id="results1C" class="tinycircle"></div></td>
+                    <td><div id="results1D" class="tinycircle"></div></td>
+                    </tr>
+                    </table>
+                </div><br>
+                <div id="guess1A" class="circle" onclick=changeColor("guess1A")></div>
+                <div id="guess1B" class="circle" onclick=changeColor("guess1B")></div>
+                <div id="guess1C" class="circle" onclick=changeColor("guess1C")></div>
+                <div id="guess1D" class="circle" onclick=changeColor("guess1D")></div>
+            </div>
+            <div id="guess2" class="guess">
+                <div id="results2" class="square">
+                    <table>
+                    <tr>
+                    <td><div id="results2A" class="tinycircle"></div></td>
+                    <td><div id="results2B" class="tinycircle"></div></td>
+                    </tr>
+                    <tr>
+                    <td><div id="results2C" class="tinycircle"></div></td>
+                    <td><div id="results2D" class="tinycircle"></div></td>
+                    </tr>
+                    </table>
+                </div><br>
+                <div id="guess2A" class="circle"></div>
+                <div id="guess2B" class="circle"></div>
+                <div id="guess2C" class="circle"></div>
+                <div id="guess2D" class="circle"></div>
+            </div>
+            <div id="guess3" class="guess">
+                <div id="results3" class="square">
+                    <table>
+                    <tr>
+                    <td><div id="results3A" class="tinycircle"></div></td>
+                    <td><div id="results3B" class="tinycircle"></div></td>
+                    </tr>
+                    <tr>
+                    <td><div id="results3C" class="tinycircle"></div></td>
+                    <td><div id="results3D" class="tinycircle"></div></td>
+                    </tr>
+                    </table>
+                </div><br>
+                <div id="guess3A" class="circle"></div>
+                <div id="guess3B" class="circle"></div>
+                <div id="guess3C" class="circle"></div>
+                <div id="guess3D" class="circle"></div>
+            </div>
+            <div id="guess4" class="guess">
+                <div id="results4" class="square">
+                    <table>
+                    <tr>
+                    <td><div id="results4A" class="tinycircle"></div></td>
+                    <td><div id="results4B" class="tinycircle"></div></td>
+                    </tr>
+                    <tr>
+                    <td><div id="results4C" class="tinycircle"></div></td>
+                    <td><div id="results4D" class="tinycircle"></div></td>
+                    </tr>
+                    </table>
+                </div><br>
+                <div id="guess4A" class="circle"></div>
+                <div id="guess4B" class="circle"></div>
+                <div id="guess4C" class="circle"></div>
+                <div id="guess4D" class="circle"></div>
+            </div>
+            <div id="guess5" class="guess">
+                <div id="results5" class="square">
+                    <table>
+                    <tr>
+                    <td><div id="results5A" class="tinycircle"></div></td>
+                    <td><div id="results5B" class="tinycircle"></div></td>
+                    </tr>
+                    <tr>
+                    <td><div id="results5C" class="tinycircle"></div></td>
+                    <td><div id="results5D" class="tinycircle"></div></td>
+                    </tr>
+                    </table>
+                </div><br>
+                <div id="guess5A" class="circle"></div>
+                <div id="guess5B" class="circle"></div>
+                <div id="guess5C" class="circle"></div>
+                <div id="guess5D" class="circle"></div>
+            </div>
+            <div id="guess6" class="guess">
+                <div id="results6" class="square">
+                    <table>
+                    <tr>
+                    <td><div id="results6A" class="tinycircle"></div></td>
+                    <td><div id="results6B" class="tinycircle"></div></td>
+                    </tr>
+                    <tr>
+                    <td><div id="results6C" class="tinycircle"></div></td>
+                    <td><div id="results6D" class="tinycircle"></div></td>
+                    </tr>
+                    </table>
+                </div><br>
+                <div id="guess6A" class="circle"></div>
+                <div id="guess6B" class="circle"></div>
+                <div id="guess6C" class="circle"></div>
+                <div id="guess6D" class="circle"></div>
+            </div>
+            <div id="guess7" class="guess">
+                <div id="results7" class="square">
+                    <table>
+                    <tr>
+                    <td><div id="results7A" class="tinycircle"></div></td>
+                    <td><div id="results7B" class="tinycircle"></div></td>
+                    </tr>
+                    <tr>
+                    <td><div id="results7C" class="tinycircle"></div></td>
+                    <td><div id="results7D" class="tinycircle"></div></td>
+                    </tr>
+                    </table>
+                </div><br>
+                <div id="guess7A" class="circle"></div>
+                <div id="guess7B" class="circle"></div>
+                <div id="guess7C" class="circle"></div>
+                <div id="guess7D" class="circle"></div>
+            </div>
+            <div id="guess8" class="guess">
+                <div id="results8" class="square">
+                    <table>
+                    <tr>
+                    <td><div id="results8A" class="tinycircle"></div></td>
+                    <td><div id="results8B" class="tinycircle"></div></td>
+                    </tr>
+                    <tr>
+                    <td><div id="results8C" class="tinycircle"></div></td>
+                    <td><div id="results8D" class="tinycircle"></div></td>
+                    </tr>
+                    </table>
+                </div><br>
+                <div id="guess8A" class="circle"></div>
+                <div id="guess8B" class="circle"></div>
+                <div id="guess8C" class="circle"></div>
+                <div id="guess8D" class="circle"></div>
+            </div>        
+        </div>
+        <span id="startover_button">
+            <button id="submit" onclick=compare()>amiright?</button>
+        </span>
+        <script>
+            //VARIABLES
+            var x = document.getElementById("guess1A").style.backgroundColor,
+                colors = ["#FFDAB9", "#f88379", "#89E894", "#93E2D5"],
+                A = colors[Math.floor(Math.random() * colors.length)],
+                B = colors[Math.floor(Math.random() * colors.length)],
+                C = colors[Math.floor(Math.random() * colors.length)],
+                D = colors[Math.floor(Math.random() * colors.length)],
+                theCode = [A, B, C, D],
+                codeNums = [colors.indexOf(A), colors.indexOf(B), colors.indexOf(C), colors.indexOf(D)]
+                guess = [-1, -1, -1, -1],
+                list = ["A", "B", "C", "D"],
+                guessNum = ["1", "2", "3", "4", "5", "6", "7", "8"],
+                guessSpot = 0,
+                resultSpot = 1,
+                answerIs = "wrong",
+                button = "";
+            var guessButtons = [["guess1A", "guess1B", "guess1C", "guess1D"]];
+
+            //GUESS FUNCTIONS
+            function changeColor(circle) {
+                var z = list.indexOf(circle[6]);
+                if (guess[z] == 3) {
+                    guess[z] = 0;
+                } else {
+                    guess[z] += 1;
+                }
+                document.getElementById(circle).style.backgroundColor = colors[guess[z]];
+            }
+
+            //Displays Code in first 4 dots after game completion
+            function display() {
+                document.getElementById("codeA").style.backgroundColor = theCode[0];
+                document.getElementById("codeB").style.backgroundColor = theCode[1];
+                document.getElementById("codeC").style.backgroundColor = theCode[2];
+                document.getElementById("codeD").style.backgroundColor = theCode[3];
+                document.getElementById("startover_button").innerHTML = "<button id='submit' onclick=startover()>gimme another!</button>";
+                document.getElementById("submit").style.background = "#8C1717";
+            }
+
+            function clearClick (button) {
+                document.getElementById(button).onclick = function () { ; };
+            }
+
+            function addClick (button) {
+                document.getElementById(button).onclick = function () { changeColor(button); };
+            }
+
+            //Checks to see if guess is correct
+            function compare() {
+                if (guess.indexOf(-1) == -1) {
+                    if (guess[0] == codeNums[0] && guess[1] == codeNums[1] && guess[2] == codeNums[2] && guess[3] == codeNums[3]) {
+                        answerIs = "right";
+                        display();
+                        showDots();
+                    } else {
+                        showDots();
+                        newGuess();
+                    }
+                }
+                //Test Code Start
+                //console.log(answerIs, codeNums);
+                //Test Code End
+            }
+
+            function newGuess() {
+                if (guessSpot == 7) {
+                    gameover();
+                } else if (guessSpot != -1) {
+                    for (i = 0; i < 4; i++) {
+                        button = "guess" + guessNum[guessSpot] + list[i];
+                        clearClick(button);
+                    }
+                    guessSpot += 1;
+                    for (i = 0; i < 4; i++) {
+                        button = "guess" + guessNum[guessSpot] + list[i];
+                        addClick(button);
+                    guess = [-1, -1, -1, -1];
+                    }
+                }
+            }
+
+            //Clear all dots to grey and tan
+            function greyDots(circle) {
+                document.getElementById(circle).style.backgroundColor = "lightgrey";
+            }
+            function tanDots(tinycircle) {
+                document.getElementById(tinycircle).style.backgroundColor = "#eaeab4";
+            }    
+            function startover() {
+                x = document.getElementById("guess1A").style.backgroundColor;
+                theCode = []
+                codeNums = []
+                for (i = 0; i < 4; i++) {
+                    theCode.push(colors[Math.floor(Math.random() * colors.length)]);
+                    codeNums.push(colors.indexOf(theCode[i]));
+                }
+                guess = [-1, -1, -1, -1];
+                guessSpot = 0;
+                resultSpot = 1;
+                answerIs = "wrong";
+                button = "";
+                guessButtons = [["guess1A", "guess1B", "guess1C", "guess1D"]];
+                for (i = 0; i < 4; i++) {
+                    circle = "code" + list[i];
+                    greyDots(circle);
+                }
+                for (i = 0; i < 4; i++) {
+                    for (j = 1; j <= 8; j++) {
+                        circle = "guess" + j + list[i];
+                        greyDots(circle);
+                        if (j === 1) {
+                            addClick(circle);
+                        } else {
+                            clearClick(circle);
+                        }
+                    }
+                }
+                for (i = 0; i < 4; i++) {
+                    for (j = 1; j <= 8; j++) {
+                        tinycircle = "results" + j + list[i];
+                        tanDots(tinycircle);
+                    }
+                }
+                document.getElementById("startover_button").innerHTML = "<button id='submit' onclick=compare()>amiright?</button>";
+                document.getElementById("submit").style.background = "#FFA500";
+            }
+
+            function gameover() {
+                for (i = 0; i < 4; i++) {
+                    button = "guess" + guessNum[guessSpot] + list[i];
+                    clearClick(button);
+                }
+                display();
+                document.getElementById("startover_button").innerHTML = "<button id='submit' onclick=startover()>try, try, try again?</button>";
+            }
+
+            //RESULTS FUNCTIONS
+            function countRightplace() {
+                var rightPlace = 0;
+                for (i = 0; i < 4; i++) {
+                    if (guess[i] == codeNums[i]) {
+                        rightPlace += 1
+                    }
+                }
+                return rightPlace;
+            }
+
+            function countRightcolor() {
+                var rightColor = 0,
+                    tempguess = guess,
+                    n = 0;
+                for (i = 0; i < 4; i++) {
+                    n = tempguess.indexOf(codeNums[i])
+                    if (n != -1) {
+                        rightColor += 1;
+                        if (n == 0) {
+                            tempguess = tempguess.slice(1,4)
+                        } else if (n == 1) {
+                            tempguess = tempguess.slice(0,1) + tempguess.slice(2,4)
+                        } else if (n == 2) {
+                            tempguess = tempguess.slice(0,2) + tempguess.slice(3,4)
+                        } else if (n == 3) {
+                            tempguess = tempguess.slice(0,3)
+                        } 
+                    }
+                }
+                return rightColor;
+            }
+
+            //Shows black and yellow dots as hints above guess code
+            function showDots() {
+                var space = countRightplace(),
+                    color = countRightcolor();
+                for (var j = 0; j < space; j++) {
+                    resultdot = "results" + resultSpot.toString() + list[j].toString();
+                    document.getElementById(resultdot).style.backgroundColor = "black";
+                }
+                for (var k = space; k < color; k++) {
+                    resultdot = "results" + resultSpot.toString() + list[k].toString();
+                    document.getElementById(resultdot).style.backgroundColor = "#FFFF99";
+                }
+                resultSpot += 1
+
+            }
+
+            /*  
+                NEXT STEPS:
+                1) innerHTML to move guess buttons to next section - make it part of submit button DONE
+                2) add HTML for 4 dots on top DONE
+                3) add JS to show how many correct color/spot (countRightplace) DONE
+                4) add JS to show how many correct color (countRightcolor) DONE
+                5) make dots change colors accordingly (showDots) DONE
+                6) game over function to end after 8 tries DONE
+                7) fill in startover() function
+            */
+        </script>
+    </body>
+</html>
