@@ -1,7 +1,126 @@
 <html>
     <head>
-        <link type="text/css" rel="stylesheet" href="ttt.css">
         <title>Tic Tac Toe</title>
+        <style>
+            /* Tic Tac Toe Grid Borders */
+            #TL {
+                border-right: solid black 5px;
+                border-bottom: solid black 5px;
+            }
+            #TM {
+                border-left: solid black 5px;
+                border-right: solid black 5px;
+                border-bottom: solid black 5px;
+            }
+            #TR {
+                border-left: solid black 5px;
+                border-bottom: solid black 5px;
+            }
+            #ML {
+                border-top: solid black 5px;
+                border-right: solid black 5px;
+                border-bottom: solid black 5px;
+            }
+            #MM {
+                border: solid black 5px;
+            }
+            #MR {
+                border-left: solid black 5px;
+                border-top: solid black 5px;
+                border-bottom: solid black 5px;
+            }
+            #BL {
+                border-right: solid black 5px;
+                border-top: solid black 5px;
+            }
+            #BM {
+                border-left: solid black 5px;
+                border-right: solid black 5px;
+                border-top: solid black 5px;
+            }
+            #BR {
+                border-left: solid black 5px;
+                border-top: solid black 5px;
+            }
+            #field {
+                vertical-align: middle;
+                margin: 10% 0%;
+                height: auto;
+                width: 100%;
+            }
+            #start {
+                width: 100%;
+                height: auto;
+                font-family: verdana;
+                font-size: 20px;
+                text-align: center;
+                background-color: beige;
+            }
+            #beginGame {
+                height: 30px;
+                background-color: #800000;
+                font-size: 20px;
+                margin-top: 4px;
+                opacity: 1.0;
+            }
+            #player1 {
+                color: teal;
+                text-align: center;
+            }
+            #player2 {
+                color: coral;
+                text-align: center;
+            }
+            #gameDirections {
+                font-size: 40px;
+                vertical-align: middle;
+            }
+            #gameWinner {
+                font-size: 30px;
+                vertical-align: middle;
+            }
+            #playAgain {
+                width: 150px;
+                height: 15px;
+                background-color: #800000;
+                font-size: 10px;
+            }
+
+            #tttbutton {
+                color: #FF0000;
+                background-color: #000;
+                font-size: 35px;
+            }
+
+            #right {
+                padding: 2% 10%;
+            }
+
+            table {
+                border-spacing: 0;
+                text-align: left;
+                vertical-align: middle;
+                height: 70%;
+                width: 100%;
+            }
+            td {
+                font-size: 60px;
+                width: 33.3%;
+                height: 33.3%;
+                text-align: center;
+                font-family: verdana;
+                vertical-align: middle;
+            }
+
+            input {
+                width: 20px;
+                border-left: none;
+                border-right: none;
+                border-top: none;
+                border-bottom: grey 1px solid;
+                background-color: beige;
+            }
+        </style>
     </head>
     <body>
         <div id="field">
@@ -24,6 +143,187 @@
                 </tr>
             </table>
         </div>
-        <script src="ttt.js"></script>
+        <script>
+            //VARIABLES
+            var TL = document.getElementById('TL'),
+                TM = document.getElementById('TM'),
+                TR = document.getElementById('TR'),
+                ML = document.getElementById('ML'),
+                MM = document.getElementById('MM'),
+                MR = document.getElementById('MR'),
+                BL = document.getElementById('BL'),
+                BM = document.getElementById('BM'),
+                BR = document.getElementById('BR');
+            var cells = [[TL, TM, TR], [ML, MM, MR], [BL, BM, BR]];
+            var startBox = document.getElementById('start');
+            var n = 1,
+                one = '',
+                two = '',
+                game = "notOver",
+                turn = '',
+                colorOne = 'teal',
+                colorTwo = 'coral';
+            var cell1 = 0,
+                cell2 = 0,
+                cell3 = 0,
+                cell4 = 0,
+                cell5 = 0,
+                cell6 = 0,
+                cell7 = 0,
+                cell8 = 0,
+                cell9 = 0;
+
+            //GAME PLAY     
+            function start() {
+                startBox.innerHTML = "<b>Player 1: <input maxlength='1' type='text' name='player1' id='player1' value=''> Player 2: <input maxlength='1' type='text' name='player2' id='player2' value=''></b><button id='beginGame' onclick='beginGame()'>Let's Go!</button>"  
+            }
+
+            function beginGame() {
+                one = document.getElementById('player1').value.toUpperCase();
+                two = document.getElementById('player2').value.toUpperCase(); 
+                game = "notOver";
+                turn = "";
+                n = 1;
+                cell1 = 0; 
+                cell2 = 0;
+                cell3 = 0;
+                cell4 = 0;
+                cell5 = 0;
+                cell6 = 0;
+                cell7 = 0;
+                cell8 = 0;
+                cell9 = 0;
+                for (var i = 0; i < cells.length; i++) {
+                    cells[i][0].innerHTML = ""; 
+                    cells[i][1].innerHTML = "";
+                    cells[i][2].innerHTML = "";
+                }
+                turnOne();
+            }
+
+            //TURNS
+            function turnOne() {
+                startBox.innerHTML = "<p id='gameDirections'>It's " + one + "'s turn!</p>";
+                startBox.style.color = colorOne;
+                turn = one;
+                n = 1;
+                color = colorOne;
+            }
+
+            function turnTwo() {
+                startBox.innerHTML = "<p id='gameDirections'>It's " + two + "'s turn!</p>";
+                startBox.style.color = colorTwo;
+                turn = two;
+                n = 2;
+                color = colorTwo;
+            }
+
+            //MARK CELL
+            function nextPlay() {
+                switch (n) {
+                    case 2:
+                        turnOne();
+                        break;
+                    case 1:
+                        turnTwo();
+                        break;
+                }
+            }
+
+            //CHECK COORDINATES
+            function changeCell(currentCell) {
+                currentCell.innerHTML = turn;
+                currentCell.style.color = color;
+                check_for_win();
+                if (game == "notOver") {
+                    nextPlay();
+                }
+            }
+
+            function mark_cell(cell) {
+                if (game == "notOver") {
+                    if (cell == "TL") {
+                        if (cell1 == 0) {
+                            cell1 = 1;
+                            changeCell(TL);
+                        }
+                    } else if (cell == "TM") {
+                        if (cell2 == 0) {
+                            cell2 = 1;
+                            changeCell(TM);
+                        }
+                    } else if (cell == "TR") {
+                        if (cell3 == 0) {
+                            cell3 = 1;
+                            changeCell(TR);                
+                        }
+                    } else if (cell == "ML") {
+                        if (cell4 == 0) {
+                            changeCell(ML);
+                            cell4 = 1;
+                        }
+                    } else if (cell == "MM") {
+                        if (cell5 == 0) {
+                            cell5 = 1;
+                            changeCell(MM);
+                        }
+                    } else if (cell == "MR") {
+                        if (cell6 == 0) {
+                            cell6 = 1;
+                            changeCell(MR);
+                        }
+                    } else if (cell == "BL") {
+                        if (cell7 == 0) {
+                            cell7 = 1;
+                            changeCell(BL);
+                        }
+                    } else if (cell == "BM") {
+                        if (cell8 == 0) {
+                            cell8 = 1;
+                            changeCell(BM);
+                        }
+                    } else if (cell == "BR") {
+                        if (cell9 == 0) {
+                            cell9 = 1;
+                            changeCell(BR);
+                        }
+                    }
+                }
+            }
+
+            //CHECK FOR WIN
+            function gameOver() {
+                startBox.innerHTML = "<p id='gameWinner'>" + turn + " wins!!!<br><button id='playAgain' onclick='start()'>Play Again</button></p>";
+                startBox.style.color = color;
+                game = "over";
+            }
+
+            function gameTie() {
+                startBox.innerHTML = "<p id='gameWinner'>It's a TIE!<br><button id='playAgain' onclick='start()'>Play Again</button></p>";
+                startBox.style.color = "black";
+                game = "over";
+            }
+
+            function check_for_win() {
+                if (cells[0][0].innerHTML == cells[1][1].innerHTML && cells[0][0].innerHTML == cells[2][2].innerHTML && cells[0][0].innerHTML != "") {
+                    gameOver();
+                } else if (cells[2][0].innerHTML == cells[1][1].innerHTML && cells[2][0].innerHTML == cells[0][2].innerHTML && cells[1][1].innerHTML != "") {
+                    gameOver();
+                } else {
+                    for (var i = 0; i <= 2; i++) {
+                        if (cells[i][0].innerHTML == cells[i][1].innerHTML && cells[i][0]. innerHTML == cells[i][2].innerHTML && cells[i][0].innerHTML != "") {
+                            gameOver();
+                            break;
+                        } else if (cells[0][i].innerHTML == cells[1][i].innerHTML && cells[0][i].innerHTML == cells[2][i].innerHTML && cells[0][i].innerHTML != "") {
+                            gameOver();
+                            break;
+                        } else if (cell1 == 1 && cell2 == 1 && cell3 == 1 && cell4 == 1 && cell5 == 1 && cell6 == 1 && cell7 == 1 && cell8 == 1 && cell9 == 1) {
+                            gameTie();
+                            break;
+                        }
+                    }
+                }
+            }
+        </script>
     </body>
 </html>
