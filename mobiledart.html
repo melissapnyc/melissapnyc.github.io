@@ -1,16 +1,111 @@
 <html>
     <head>
-        <link type="text/css" rel="stylesheet" href="mobiledart.css">
+        <title>Mobile Dart</title>
+        <style>
+            #field {
+                height:80%;
+                width:90%;
+                /*border:solid 1px red;*/
+                margin: 10%;
+            }
+            #balloon {
+                background-Image:url(green.gif);
+                background-size:100% 100%;
+                height: 0px;
+                width: 0px;
+                position:absolute;
+                z-index: 0;
+            }
+
+            button {
+                border: none;
+                background-color:white;
+            }
+            .p {
+                display: inline;
+                color:red;
+                font-family:Verdana;
+            }
+            #directions {
+                color:grey;
+                font-family:Verdana;
+                position:relative;
+                font-size: 30px;   
+                top: 40%;
+                width: 90%;
+                text-align:center;
+                vertical-align:middle;
+            }
+
+            #right {
+                padding: 0%;
+            }
+        </style>
     </head>
     <body>
         <div id="field">
             <b><p class="p">Balloons: </p><p class="p" id="score">0</p></b>
             <div onclick="hit()" id="balloon"></div>
             <audio id="pop">
-                <source src="pop.m4a" type="audio/mpeg">
+                <source src="pop.mp3" type="audio/mpeg">
             </audio>
             <div onclick="start()" id="directions"><b>Tap here to start popping balloons!</b></div>
         </div>
-        <script src="mobiledart.js"></script>
+        <script>
+            var balloon = document.getElementById("balloon"),
+                pop = document.getElementById("pop"),
+                check = false,
+                newScore = 0;
+            var bLeft = document.getElementById("balloon").style.left = (Math.floor((Math.random() * 95) + 1)) + '%';
+            var bTop = document.getElementById("balloon").style.top = (Math.floor((Math.random() * 95) + 1)) + '%';
+            var n = 25;
+            var balloons = ["url(red.gif)","url(orange.gif)","url(yellow.gif)","url(green.gif)","url(blue.gif)","url(purple.gif)"]
+
+            //GAME START
+            function start() {
+                newBalloon();
+                document.getElementById("directions").innerHTML = "";
+            }
+
+            function newBalloon() {
+                check = false;
+                url = balloons[Math.floor(Math.random()*balloons.length)];
+                document.getElementById("balloon").style.backgroundImage = url;
+                document.getElementById("balloon").style.height = 40;
+                document.getElementById("balloon").style.width = 40;
+                var bLeft = document.getElementById("balloon").style.left = (Math.floor((Math.random() * 95) + 1)) + '%';
+                var bTop = document.getElementById("balloon").style.top = (Math.floor((Math.random() * 95) + 1)) + '%';
+                var i = 80;
+                function frame() {
+                    document.getElementById("balloon").style.height = i;
+                    document.getElementById("balloon").style.width = i;
+                    i = i + 2;
+                    if (check == true) {
+                        pop.currentTime = 0;
+                        pop.play();
+                        clearInterval(id);
+                        newScore++;
+                        n--;
+                        document.getElementById("score").innerHTML = newScore;
+                        document.getElementById("balloon").style.height = 0;
+                        document.getElementById("balloon").style.width = 0;
+                        newBalloon();
+                    }
+                    if (i == 400) {
+                        clearInterval(id);
+                        document.getElementById("balloon").style.height = 0;
+                        document.getElementById("balloon").style.width = 0;
+                        document.getElementById("directions").innerHTML = "<b>GAME OVER</b>";
+                        document.getElementById("directions").onclick = function() {};
+                    }
+                }
+                var id = setInterval(frame, n)
+            }
+
+            //CHECK HIT
+            function hit() {
+                check = true;
+            }
+        </script>
     </body>
 </html>
