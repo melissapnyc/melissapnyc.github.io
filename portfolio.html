@@ -1,0 +1,256 @@
+<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="mastermind.css">
+    <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie' rel='stylesheet' type='text/css'>
+    <title>Melissa's Portfolio</title>
+    <style>
+        body {
+            margin: 0%;
+            padding: 0%;
+            overflow: hidden;
+        }
+
+        div {
+        box-sizing: border-box;
+        }
+
+        h1, h2 {
+            font-family: Verdana;
+            z-index: 1;
+            opacity: 1.0;
+        }
+
+        h1 {
+            font-size: 22px;
+            padding-left: 10px;
+            padding-top: 10px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin:10px;
+        }
+
+        button {
+            width: 96%;
+            margin: 2%;
+            font-size: 20px; 
+            background-color: white;
+            border-radius: 8px;
+            border:none;
+            color:#fff;
+            opacity: .7;
+        }
+
+        a {
+            max-height:90%;
+            text-decoration:none;
+            color:#fff;
+        }
+
+        #wrapper {
+            padding: 0% 2%;
+        }
+        #box {
+            width: 96%;
+            height: 100%;
+            padding: 0% 2%;
+            border: 0px solid grey;
+            border-radius:0px;
+            text-align: center;
+            vertical-align: middle;
+            background-image: url(bkgd.jpeg);
+            background-repeat:no-repeat;
+            background-position: center;
+            background-size:cover;
+            background-attachment: fixed;
+            opacity:.7;
+            box-sizing: border-box;
+            margin: 0px auto;
+        }
+        #contact {
+            font-size: .7em;
+            color:black;
+        }
+        #ttt {
+            background-color: #5e1458;
+            z-index:2;
+        }
+
+        #pop {
+            background-color: #000;
+            z-index:2;
+        }
+        #snake {
+            background-color: #1c5252;
+            z-index:2;
+        }
+
+        #catch {
+            background-color: #000;
+            z-index:2;
+        }
+
+        #mind {
+            background-color: #301e4b;
+            z-index:2;
+        }
+        #header {
+            float: left;
+            margin: 0% 2%;
+            width: 96%;
+            height: 30%;
+            padding: 2%;
+            background-color: coral;
+            border-radius: 0px;
+            opacity: .7;
+            font-family: 'Reenie Beanie', cursive;
+            font-size:26px;
+            box-sizing: border-box;
+        }
+
+        #gamesBox {
+            width:96%;
+            height: 65%;
+            margin: 7% 2% 0% 2%;
+            padding: 10%;
+        }
+
+        #left {
+            float: left;
+            width: 36%;
+            height: 94%;
+            border-radius: 7px;
+            margin: 1.5% 0% 1.5% 4%;
+            padding: 0%;
+        }
+
+        #right {
+            float: right;
+            width: 54%;
+            height: 94%;
+            border-radius: 3px;
+            margin: 1.5% 4% 1.5% 2%;
+            padding: 10%;
+        }
+
+        #headerh3 {
+            margin: 0px;
+        }
+
+        #cloud {
+            width: 20px;
+            height: 20px;
+        }
+
+        .whitebox {    
+            border:black 0px solid;
+            float: right;
+            padding: 1%;
+            background: #fff;
+            opacity: .8;
+            z-index: 0;
+            text-align: center;
+            font-size: 1em;
+            font-family:Verdana;
+            border-spacing:5px 5px;
+            box-sizing: border-box;
+        }
+
+        .boxes button {
+            padding: 2% 2%;
+            box-sizing: border-box;
+            height: 16%;
+        }
+
+        /*MEDIA QUERIES*/
+        @media screen and (max-width: 1024px) {
+            #header, #right, #left, #gamesbox{
+                float: left;
+                font-size: 1.7em;
+            }
+            #header, #gamesbox {
+                width:100%;
+                margin: 2% 0%;
+            }
+            #left, #right {
+                width:90%;
+                margin: 2% 5%;
+            }
+            #box {
+                overflow: auto;
+            }
+            #right  {
+                opacity: 0.9;
+            }
+        }    
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+    <div id="box">
+        <div id="left">
+            <div id="header"><h3 id="headerh3" style="color:beige">Hi there!<br> I'm Melissa Pallay :)</h3><br><b>engineer</b> | <b>consultant</b> | <b>product manager</b><a target="blank" href="nyweather.html">
+            <img id="cloud" src="http://images.clipartpanda.com/cloud-icon-png-clouds.png">
+            </a><a target="blank" href="http://about.me/melissapallay"><p id="contact">click here for more <b>about.me</b></p></a>
+            </div>
+            <!--<div id="gamesBox" class="whitebox">
+                <div class="boxes"><button data-file="mastermind.html" id="mind"><b><i>play</i> Mastermind</b></button>
+                </div>
+                <div class="boxes"><button data-file="tictactoe.html" id="ttt"><i>play</i><b> Tic Tac Toe</b></button>
+                </div>
+                <div class="boxes"><button data-file="mobiledart.html" id="pop"><i>play</i><b> Balloon Pop</b></button>
+                </div>
+                <div class="boxes"><button data-file="snake.html" id="snake"><b><i>play</i> Snake</b></button>
+                </div>
+                <div class="boxes"><button data-file="catch.html" id="catch"><b><i>play</i> Catch</b></button>
+                </div>
+            </div>-->
+            <div id="gamesBox" class="whitebox">
+                <a href="https://melissapnyc.github.io/mastermind"><div class="boxes"><button data-file="mastermind.html" id="mind"><b><i>play</i> Mastermind</b></button>
+                    </div>
+                </a>
+                <a href="https://melissapnyc.github.io/tictactoe"><div class="boxes"><button data-file="tictactoe.html" id="ttt"><i>play</i><b> Tic Tac Toe</b></button>
+                </div>
+                </a>
+                <a href="https://melissapnyc.github.io/mobiledart"><div class="boxes"><button data-file="mobiledart.html" id="pop"><i>play</i><b> Balloon Pop</b></button>
+                </div>
+                </a>
+                <a href="https://melissapnyc.github.io/snake"><div class="boxes"><button data-file="snake.html" id="snake"><b><i>play</i> Snake</b></button>
+                </div>
+                </a>
+                <a href="https://melissapnyc.github.io/catch"><div class="boxes"><button data-file="catch.html" id="catch"><b><i>play</i> Catch</b></button>
+                </div>
+                </a>
+            </div>
+        </div>
+        <div class="whitebox" id="right">Click a game on the left and it will pop up here. <br><br>Try them all!<br><br>GOOD LUCK!</div>
+        <div class="clear"></div>
+    </div>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        var urls = {"mind":"mastermind.html","ttt":"tictactoe.html","pop":"mobiledart.html","snake":"snake.html","catch":"catch.html"};
+
+        function showGame(game) {
+            document.getElementById("right").innerHTML = "<iframe width='100%' scrolling='no' seamless='seamless' src='" + urls[game] + "'></iframe>"; 
+        }
+
+        jQuery(function(){
+            $(".boxes button").click(function(){
+                $('#right').html('');
+                var file = $(this).data('file');
+                $('#right').load(file);
+            });
+        });
+  
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-57200985-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>
