@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="ttt.css">
+        <title>Tic Tac Toe</title>
+    </head>
+    <body>
+        <div id="field">
+            <div id="start"><button id="tttbutton" onclick="start()">Start Game</button></div><br>
+            <table id="table">
+                <tr>
+                    <td onClick="mark_cell('TL')" id="TL">X</td>
+                    <td onClick="mark_cell('TM')" id="TM">O</td>
+                    <td onClick="mark_cell('TR')" id="TR">X</td>
+                </tr>
+                <tr>
+                    <td onClick="mark_cell('ML')" id="ML">O</td>
+                    <td onClick="mark_cell('MM')" id="MM">X</td>
+                    <td onClick="mark_cell('MR')" id="MR">O</td>
+                </tr>
+                <tr>
+                    <td onClick="mark_cell('BL')" id="BL">X</td>
+                    <td onClick="mark_cell('BM')" id="BM">O</td>
+                    <td onClick="mark_cell('BR')" id="BR">X</td>
+                </tr>
+            </table>
+        </div>
+        <script src="ttt.js"></script>
+    </body>
+</html>
