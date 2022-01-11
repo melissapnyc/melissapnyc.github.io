@@ -1,0 +1,319 @@
+<html>
+    <head>
+        <style>
+            body {
+                margin: 20px;    
+            }
+            #headerwordz {
+                height: 50px;
+                width: 310px;
+                font-family: verdana;
+                font-size: 40px;
+                padding-left: 8px;
+            }
+            #game {
+                height: 200px;
+                width: 350px;
+            }
+            #code {
+                float: left;
+                border-right: grey solid 2px;
+                padding-left: 5px;
+                padding-right: 5px;
+                padding-top: 2px;
+            }
+            #guess1 {
+                padding-left: 5px;
+            }
+            #submit {
+                background-color: orange;
+                font-family: verdana;
+                color: white;
+                border-radius: 5px;
+                float: left;
+                width: 310px;
+                height: 50px;
+                font-size: 25px;
+            }
+            #blank {
+                height: 20px;
+                width: 30px;
+            }
+            .guess {
+                float: left;
+                padding: 2px;
+            }
+            #guesstable {
+                border-spacing: 10px;
+            }
+            .letterbox {
+                border: 0px grey solid;
+                border-collapse: separate;
+                color: grey;
+                height: 50px;
+                width: 50px;
+                font-size: 30px;
+                margin: 10px;
+            }
+            .guessInput {
+                font-size: 30px;
+                text-align: center;
+                height:50px;
+                width: 50px;
+            }
+            .checkButton {
+                font-size: 24px;
+                height:50px;
+                width: 100px;
+                border: none;
+                color: white;
+                background-color: rgb(47, 74, 165);
+            }
+            #check2, #check3, #check4, #check5, #check6 {
+                display: none;
+            }
+            .newWordButton {
+                font-size: 18px;
+                height: 30px;
+                width: 120px;
+                margin-left: 10px;
+                border: none;
+                color: white;
+                background-color: rgb(85, 135, 228);
+            }
+            .checkButton:hover, .newWordButton:hover {
+                background-color: rgb(61, 61, 61);
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Wordz Code for REF 
+        Ideas for improvements:
+        First add Nextjs
+        Then use Chakra
+
+        1. Allow for bigger or smaller words (input for word length)
+        2. Allow for more/less guesses
+        3. Allow for alt languages
+        4. Add keyboard with greyed out options
+        5. Restart option
+        -->
+        
+        <div id="headerwordz"><b>wordz</b></div><br>
+        <table id="guesstable">
+            <tr id="guess1">
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l1" oninput="autotab(this,g1l2)" autofocus></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l2" oninput="autotab(this,g1l3)"></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l3" oninput="autotab(this,g1l4)"></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l4" oninput="autotab(this,g1l5)"></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l5" oninput="autotab(this,check1)"></td>
+                <td><button class="checkButton" id="check1" onclick=compare()>Check</button></td>
+            </tr>
+            <tr id="guess2">
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l1" oninput="autotab(this,g2l2)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l2" oninput="autotab(this,g2l3)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l3" oninput="autotab(this,g2l4)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l4" oninput="autotab(this,g2l5)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l5" oninput="autotab(this,check2)" disabled></td>
+                <td><button class="checkButton" id="check2" onclick=compare()>Check</button></td>
+            </tr>
+            <tr id="guess3">
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l1" oninput="autotab(this,g3l2)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l2" oninput="autotab(this,g3l3)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l3" oninput="autotab(this,g3l4)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l4" oninput="autotab(this,g3l5)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l5" oninput="autotab(this,check3)" disabled></td>
+                <td><button class="checkButton" id="check3" onclick=compare()>Check</button></td>
+            </tr>
+            <tr id="guess4">
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l1" oninput="autotab(this,g4l2)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l2" oninput="autotab(this,g4l3)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l3" oninput="autotab(this,g4l4)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l4" oninput="autotab(this,g4l5)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l5" oninput="autotab(this,check4)" disabled></td>
+                <td><button class="checkButton" id="check4" onclick=compare()>Check</button></td>
+            </tr>
+            <tr id="guess5">
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l1" oninput="autotab(this,g5l2)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l2" oninput="autotab(this,g5l3)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l3" oninput="autotab(this,g5l4)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l4" oninput="autotab(this,g5l5)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l5" oninput="autotab(this,check5)" disabled></td>
+                <td><button class="checkButton" id="check5" onclick=compare()>Check</button></td>
+            </tr>
+            <tr id="guess6">
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l1" oninput="autotab(this,g6l2)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l2" oninput="autotab(this,g6l3)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l3" oninput="autotab(this,g6l4)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l4" oninput="autotab(this,g6l5)" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l5" oninput="autotab(this,check6)" disabled></td>
+                <td><button class="checkButton" id="check6" onclick=compare()>Check</button></td>
+            </tr>
+        </table>
+        <button class="newWordButton" onClick="document.location.reload(true)">New Word</button>        
+
+        <!-- wordz SCRIPT -->
+        <script>
+            function autotab(current,to)
+                {
+                    if (current.getAttribute && current.value.length==current.getAttribute("maxlength")) 
+                    {
+                        to.focus() 
+                    }
+                }
+
+            //VARIABLES
+            var //x = document.getElementById("guess1A").style.backgroundColor,
+                words = ["TREAT", "WHERE", "HOMES", "PARTY", "CHEER", "LEARN", "PEACE", "SMILE", "EARTH", "SUGAR", "MUSIC", "WATER", "HAPPY", "HEART", "PIZZA", "WORLD"], //Replace with DB
+                theCode = words[Math.floor(Math.random() * words.length)];
+                console.log(theCode);
+                guess = [-1, -1, -1, -1],
+                guessSpot = 1,
+                answerIs = "wrong",
+                letter = "";
+
+            function updateGuess() {
+                guessWord = document.getElementById("g" + guessSpot + "l1").value 
+                + document.getElementById("g" + guessSpot + "l2").value 
+                + document.getElementById("g" + guessSpot + "l3").value
+                + document.getElementById("g" + guessSpot + "l4").value
+                + document.getElementById("g" + guessSpot + "l5").value;
+                guessWord=guessWord.toUpperCase();
+                //console.log(guessWord);
+            }
+
+            //Displays Word in first bottom guess after game completion
+            function display() {
+                document.getElementById("g6l1").value = theCode[0];
+                document.getElementById("g6l2").value = theCode[1];
+                document.getElementById("g6l3").value = theCode[2];
+                document.getElementById("g6l4").value = theCode[3];
+                document.getElementById("g6l5").value = theCode[4];
+                document.getElementById("check"+guessSpot).style.display= "none";
+            }
+
+            //Checks to see if guess is correct
+            function compare() {
+                updateGuess(0);
+                if (guessWord == theCode) {
+                    answerIs = "right";
+                    //console.log(answerIs);
+                    display();
+                    showCorrectLetters();
+                } else {
+                    //console.log(answerIs);
+                    showCorrectLetters();
+                    newGuess();
+                }
+            }
+
+            function newGuess() {
+                if (guessSpot == 6) {
+                    gameover();
+                } else if (guessSpot != -1) {
+                    for (i = 1; i < 6; i++) {
+                        letter = "g" + guessSpot + "l" + i;
+                        document.getElementById(letter).disabled = true;
+                    }
+                    document.getElementById("check"+guessSpot).style.display= "none";
+                    guessSpot += 1;
+                    document.getElementById("check"+guessSpot).style.display= "block";
+                    for (i = 1; i < 6; i++) {
+                        letter = "g" + guessSpot + "l" + i;
+                        document.getElementById(letter).disabled = false;
+                    guess = [-1, -1, -1, -1];
+                    }
+                    document.getElementById("g"+guessSpot+"l1").focus();
+                }
+            }
+ 
+            //RESULTS FUNCTIONS
+            function showCorrectLetters() {
+                var wrong = [0,1,2,3,4];
+                for (i=0; i<5; i++) {
+                    //console.log(i,guessWord[i],theCode[i],((guessWord[i] == theCode[i])));
+                    if (guessWord[i] == theCode[i]) {
+                        //console.log(i + " right letter and spot");
+                        document.getElementById("g"+guessSpot+"l"+(i+1)).style.backgroundColor = "#99FF99";
+                        //console.log(wrong);
+                        for (var j=0; j<wrong.length; j++) {
+                            if (wrong[j] === i) {
+                                wrong.splice(j,1);
+                            }
+                        };
+                    }
+                }
+                //console.log(wrong);
+                for (let x in wrong) {
+                    for (let y in wrong) {
+                        //console.log(x,y,wrong[x],wrong[y],(guessWord[x]==theCode[y]));
+                        if (guessWord[wrong[x]] == theCode[wrong[y]]) {
+                            document.getElementById("g"+guessSpot+"l"+(parseInt(wrong[x])+1)).style.backgroundColor = "#FFF599";
+                            //return;
+                        }
+
+                    }
+                    /*
+                    if (guessWord[i] == theCode[0] || guessWord[i] == theCode[1] || guessWord[i] == theCode[2] || guessWord[i] == theCode[3] || guessWord[i] == theCode[4]) {
+                        //console.log(i + " right letter wrong spot")
+                        document.getElementById("g"+guessSpot+"l"+(i+1)).style.backgroundColor = "#FFF599"
+                        // AVOID YELLOW WHEN ACTUAL SPOT IS GREEN
+                    }
+                    */
+                }
+            }
+
+            function gameover() {
+                for (i = 0; i < 4; i++) {
+                    letter = "g" + guessSpot + "l" + i;
+                    document.getElementById(letter).disabled = true;
+                }
+                display();
+                // document.getElementById("Check"+guessNum) | NEED CODE TO REMOVE CHECK BUTTON AFTER GAME OVER
+                //document.getElementById("startover_button").innerHTML = "<button id='submit' onclick=startover()>try, try, try again?</button>";
+            }
+
+            /* TO BE WORKED ON
+            function startover() {
+                x = document.getElementById("guess1A").style.backgroundColor;
+                theCode = []
+                codeNums = []
+                for (i = 0; i < 4; i++) {
+                    theCode.push(colors[Math.floor(Math.random() * colors.length)]);
+                    codeNums.push(colors.indexOf(theCode[i]));
+                }
+                guess = [-1, -1, -1, -1];
+                guessSpot = 0;
+                resultSpot = 1;
+                answerIs = "wrong";
+                button = "";
+                guessButtons = [["guess1A", "guess1B", "guess1C", "guess1D"]];
+                for (i = 0; i < 4; i++) {
+                    circle = "code" + list[i];
+                    greyDots(circle);
+                }
+                for (i = 0; i < 4; i++) {
+                    for (j = 1; j <= 8; j++) {
+                        circle = "guess" + j + list[i];
+                        greyDots(circle);
+                        if (j === 1) {
+                            addClick(circle);
+                        } else {
+                            clearClick(circle);
+                        }
+                    }
+                }
+                for (i = 0; i < 4; i++) {
+                    for (j = 1; j <= 8; j++) {
+                        tinycircle = "results" + j + list[i];
+                        tanDots(tinycircle);
+                    }
+                }
+                document.getElementById("startover_button").innerHTML = "<button id='submit' onclick=compare()>amiright?</button>";
+                document.getElementById("submit").style.background = "#FFA500";
+            }
+            */
+
+        </script>
+    </body>
+</html>
