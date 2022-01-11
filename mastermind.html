@@ -65,7 +65,7 @@
                 border-radius: 100%;
                 width: 10px;
                 height: 10px;
-                background-color: #eaeab4;
+                background-color: #000000;
                 text-align: center;
                 vertical-align: top;
             }
@@ -320,7 +320,7 @@
                 document.getElementById(circle).style.backgroundColor = "lightgrey";
             }
             function tanDots(tinycircle) {
-                document.getElementById(tinycircle).style.backgroundColor = "#eaeab4";
+                document.getElementById(tinycircle).style.backgroundColor = "#000000";
             }    
             function startover() {
                 x = document.getElementById("guess1A").style.backgroundColor;
@@ -409,11 +409,11 @@
                     color = countRightcolor();
                 for (var j = 0; j < space; j++) {
                     resultdot = "results" + resultSpot.toString() + list[j].toString();
-                    document.getElementById(resultdot).style.backgroundColor = "black";
+                    document.getElementById(resultdot).style.backgroundColor = "#00CC00";
                 }
                 for (var k = space; k < color; k++) {
                     resultdot = "results" + resultSpot.toString() + list[k].toString();
-                    document.getElementById(resultdot).style.backgroundColor = "#FFFF99";
+                    document.getElementById(resultdot).style.backgroundColor = "#FFEA00";
                 }
                 resultSpot += 1
 
