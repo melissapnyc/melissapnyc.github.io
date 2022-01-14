@@ -1,5 +1,6 @@
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             body {
                 margin: 20px;    
@@ -84,76 +85,104 @@
             .checkButton:hover, .newWordButton:hover {
                 background-color: rgb(61, 61, 61);
             }
+            /* @media only screen and (max-width: 600px) {
+                body {
+                    background-color: teal;
+                }
+                #guesstable {
+                    width: 100%;
+                }
+                /*
+                .guessInput {
+                    font-size: 50px;
+                    height:100px;
+                    width: 100px;
+                }
+                .checkButton {
+                    font-size: 50px;
+                    height: 100px;
+                    width: 200px;
+                }
+                .newWordButton {
+                    font-size: 30px;
+                    height: 60px;
+                    width: 200px;
+                }
+            } */
         </style>
     </head>
     <body>
         <!-- Wordz Code for REF 
-        Ideas for improvements:
-        First add Nextjs
-        Then use Chakra
+        
+        Quick Wins:
+            Add keyboard with greyed out options or show alphatbetical letters left
+            Restart option (without refreshing page)
 
-        1. Allow for bigger or smaller words (input for word length)
-        2. Allow for more/less guesses
-        3. Allow for alt languages
-        4. Add keyboard with greyed out options
-        5. Restart option
+        Ideas for improvements:
+            First add Nextjs
+            Then use Chakra
+            Allow for bigger or smaller words (input for word length)
+            Allow for more/less guesses
+            Allow for alt languages
+
         -->
         
         <div id="headerwordz"><b>wordz</b></div><br>
         <table id="guesstable">
             <tr id="guess1">
                 <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l1" oninput="autotab(this,g1l2)" autofocus></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l2" oninput="autotab(this,g1l3)"></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l3" oninput="autotab(this,g1l4)"></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l4" oninput="autotab(this,g1l5)"></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l5" oninput="autotab(this,check1)"></td>
-                <td><button class="checkButton" id="check1" onclick=compare()>Check</button></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l2" oninput="autotab(this,g1l3)" onkeydown="backspace(event,'g1l1')"></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l3" oninput="autotab(this,g1l4)" onkeydown="backspace(event,'g1l2')"></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l4" oninput="autotab(this,g1l5)" onkeydown="backspace(event,'g1l3')"></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g1l5" oninput="autotab(this,check1)" onkeydown="backspace(event,'g1l4')"></td>
+                <td><button class="checkButton" id="check1" onclick=compare() onkeydown="backspace(event,'g1l5')">Check</button></td>
             </tr>
             <tr id="guess2">
                 <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l1" oninput="autotab(this,g2l2)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l2" oninput="autotab(this,g2l3)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l3" oninput="autotab(this,g2l4)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l4" oninput="autotab(this,g2l5)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l5" oninput="autotab(this,check2)" disabled></td>
-                <td><button class="checkButton" id="check2" onclick=compare()>Check</button></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l2" oninput="autotab(this,g2l3)"  onkeydown="backspace(event,'g2l1')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l3" oninput="autotab(this,g2l4)"  onkeydown="backspace(event,'g2l2')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l4" oninput="autotab(this,g2l5)"  onkeydown="backspace(event,'g2l3')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g2l5" oninput="autotab(this,check2)"  onkeydown="backspace(event,'g2l4')" disabled></td>
+                <td><button class="checkButton" id="check2" onclick=compare() onkeydown="backspace(event,'g2l5')">Check</button></td>
             </tr>
             <tr id="guess3">
                 <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l1" oninput="autotab(this,g3l2)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l2" oninput="autotab(this,g3l3)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l3" oninput="autotab(this,g3l4)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l4" oninput="autotab(this,g3l5)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l5" oninput="autotab(this,check3)" disabled></td>
-                <td><button class="checkButton" id="check3" onclick=compare()>Check</button></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l2" oninput="autotab(this,g3l3)"  onkeydown="backspace(event,'g3l1')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l3" oninput="autotab(this,g3l4)"  onkeydown="backspace(event,'g3l2')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l4" oninput="autotab(this,g3l5)"  onkeydown="backspace(event,'g3l3')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g3l5" oninput="autotab(this,check3)"  onkeydown="backspace(event,'g3l4')" disabled></td>
+                <td><button class="checkButton" id="check3" onclick=compare() onkeydown="backspace(event,'g3l5')">Check</button></td>
             </tr>
             <tr id="guess4">
                 <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l1" oninput="autotab(this,g4l2)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l2" oninput="autotab(this,g4l3)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l3" oninput="autotab(this,g4l4)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l4" oninput="autotab(this,g4l5)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l5" oninput="autotab(this,check4)" disabled></td>
-                <td><button class="checkButton" id="check4" onclick=compare()>Check</button></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l2" oninput="autotab(this,g4l3)"  onkeydown="backspace(event,'g4l1')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l3" oninput="autotab(this,g4l4)"  onkeydown="backspace(event,'g4l2')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l4" oninput="autotab(this,g4l5)"  onkeydown="backspace(event,'g4l3')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g4l5" oninput="autotab(this,check4)"  onkeydown="backspace(event,'g4l4')" disabled></td>
+                <td><button class="checkButton" id="check4" onclick=compare() onkeydown="backspace(event,'g4l5')">Check</button></td>
             </tr>
             <tr id="guess5">
                 <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l1" oninput="autotab(this,g5l2)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l2" oninput="autotab(this,g5l3)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l3" oninput="autotab(this,g5l4)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l4" oninput="autotab(this,g5l5)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l5" oninput="autotab(this,check5)" disabled></td>
-                <td><button class="checkButton" id="check5" onclick=compare()>Check</button></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l2" oninput="autotab(this,g5l3)"  onkeydown="backspace(event,'g5l1')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l3" oninput="autotab(this,g5l4)"  onkeydown="backspace(event,'g5l2')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l4" oninput="autotab(this,g5l5)"  onkeydown="backspace(event,'g5l3')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g5l5" oninput="autotab(this,check5)"  onkeydown="backspace(event,'g5l4')" disabled></td>
+                <td><button class="checkButton" id="check5" onclick=compare() onkeydown="backspace(event,'g5l5')">Check</button></td>
             </tr>
             <tr id="guess6">
                 <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l1" oninput="autotab(this,g6l2)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l2" oninput="autotab(this,g6l3)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l3" oninput="autotab(this,g6l4)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l4" oninput="autotab(this,g6l5)" disabled></td>
-                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l5" oninput="autotab(this,check6)" disabled></td>
-                <td><button class="checkButton" id="check6" onclick=compare()>Check</button></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l2" oninput="autotab(this,g6l3)"  onkeydown="backspace(event,'g6l1')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l3" oninput="autotab(this,g6l4)"  onkeydown="backspace(event,'g6l2')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l4" oninput="autotab(this,g6l5)"  onkeydown="backspace(event,'g6l3')" disabled></td>
+                <td class="letterbox"><input type="text" class="guessInput" maxlength="1" style="text-transform:uppercase" id="g6l5" oninput="autotab(this,check6)"  onkeydown="backspace(event,'g6l4')" disabled></td>
+                <td><button class="checkButton" id="check6" onclick=compare() onkeydown="backspace(event,'g6l5')">Check</button></td>
             </tr>
         </table>
         <button class="newWordButton" onClick="document.location.reload(true)">New Word</button>        
 
         <!-- wordz SCRIPT -->
         <script>
+            //Autotab and delete typing functions
             function autotab(current,to)
                 {
                     if (current.getAttribute && current.value.length==current.getAttribute("maxlength")) 
@@ -161,10 +190,18 @@
                         to.focus() 
                     }
                 }
+            
+            function backspace(event,previous) {
+                if (event.keyCode === 8) {
+                    //console.log("backspace",previous);
+                    document.getElementById(previous).value="";
+                    document.getElementById(previous).focus();
+                }
+            }
 
             //VARIABLES
             var //x = document.getElementById("guess1A").style.backgroundColor,
-                words = ["TREAT", "WHERE", "HOMES", "PARTY", "CHEER", "LEARN", "PEACE", "SMILE", "EARTH", "SUGAR", "MUSIC", "WATER", "HAPPY", "HEART", "PIZZA", "WORLD"], //Replace with DB
+                words = ["TREAT", "WHERE", "HOMES", "PARTY", "CHEER", "LEARN", "PEACE", "SMILE", "EARTH", "SUGAR", "MUSIC", "WATER", "HAPPY", "HEART", "PIZZA", "WORLD"], //Replace with DB and don't show
                 theCode = words[Math.floor(Math.random() * words.length)];
                 console.log(theCode);
                 guess = [-1, -1, -1, -1],
@@ -253,13 +290,6 @@
                         }
 
                     }
-                    /*
-                    if (guessWord[i] == theCode[0] || guessWord[i] == theCode[1] || guessWord[i] == theCode[2] || guessWord[i] == theCode[3] || guessWord[i] == theCode[4]) {
-                        //console.log(i + " right letter wrong spot")
-                        document.getElementById("g"+guessSpot+"l"+(i+1)).style.backgroundColor = "#FFF599"
-                        // AVOID YELLOW WHEN ACTUAL SPOT IS GREEN
-                    }
-                    */
                 }
             }
 
@@ -270,11 +300,13 @@
                 }
                 display();
                 // document.getElementById("Check"+guessNum) | NEED CODE TO REMOVE CHECK BUTTON AFTER GAME OVER
-                //document.getElementById("startover_button").innerHTML = "<button id='submit' onclick=startover()>try, try, try again?</button>";
+                // document.getElementById("startover_button").innerHTML = "<button id='submit' onclick=startover()>try, try, try again?</button>";
             }
 
-            /* TO BE WORKED ON
-            function startover() {
+            // Restart TO BE WORKED ON
+            // Need to keep track of which works have been played already
+            // Potentially keep track of score
+            /* function startover() {
                 x = document.getElementById("guess1A").style.backgroundColor;
                 theCode = []
                 codeNums = []
@@ -313,7 +345,7 @@
                 document.getElementById("submit").style.background = "#FFA500";
             }
             */
-
+            
         </script>
     </body>
 </html>
